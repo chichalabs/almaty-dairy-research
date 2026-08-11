@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Almaty Premium Farm Dairy — Market Research</title>
+<style>
+  :root {
+    --bg: #FBFAF6;
+    --surface: #F3F1E9;
+    --ink: #22281E;
+    --ink-soft: #5A6152;
+    --line: #DDDACC;
+    --accent: #2F5D3A;
+    --accent-soft: #E7EDE3;
+    --warn-bg: #F6EBDD;
+    --warn-ink: #7A4B12;
+    --good: #2F5D3A;
+    --link: #2F5D3A;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #191C16;
+      --surface: #22261E;
+      --ink: #E8E6DA;
+      --ink-soft: #A4AB97;
+      --line: #383E31;
+      --accent: #8FBF8F;
+      --accent-soft: #26301F;
+      --warn-bg: #33291A;
+      --warn-ink: #E0B87A;
+      --good: #8FBF8F;
+      --link: #9FC99A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #191C16;
+    --surface: #22261E;
+    --ink: #E8E6DA;
+    --ink-soft: #A4AB97;
+    --line: #383E31;
+    --accent: #8FBF8F;
+    --accent-soft: #26301F;
+    --warn-bg: #33291A;
+    --warn-ink: #E0B87A;
+    --good: #8FBF8F;
+    --link: #9FC99A;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  header.doc {
+    padding: 56px 0 32px;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+    text-wrap: balance;
+    font-weight: 700;
+  }
+  .subtitle { color: var(--ink-soft); font-size: 16px; margin: 0; max-width: 60ch; }
+  h2 {
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-size: 24px;
+    margin: 56px 0 16px;
+    padding-top: 8px;
+    text-wrap: balance;
+  }
+  h2 .num { color: var(--accent); font-family: inherit; margin-right: 10px; }
+  h3 { font-size: 16px; margin: 28px 0 8px; }
+  p { margin: 0 0 14px; max-width: 70ch; }
+  a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 6px; max-width: 68ch; }
+  strong { font-weight: 650; }
+
+  .verdict {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 18px 22px;
+    border-radius: 0 6px 6px 0;
+    margin: 0 0 8px;
+  }
+  .verdict p { margin: 0 0 10px; }
+  .verdict p:last-child { margin: 0; }
+
+  .callout {
+    background: var(--warn-bg);
+    color: var(--warn-ink);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .callout strong { color: inherit; }
+  .callout a { color: inherit; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .stat .v {
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    display: block;
+  }
+  .stat .l { font-size: 13px; color: var(--ink-soft); line-height: 1.4; display: block; margin-top: 4px; }
+
+  .tablewrap { overflow-x: auto; margin: 16px 0 24px; border: 1px solid var(--line); border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th {
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    background: var(--surface);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    font-variant-numeric: tabular-nums;
+  }
+  tr:last-child td { border-bottom: none; }
+  td .h { font-weight: 650; }
+  .muted { color: var(--ink-soft); font-size: 13px; }
+  .src { font-size: 13px; color: var(--ink-soft); margin-top: -8px; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .tag.warn { background: var(--warn-bg); color: var(--warn-ink); }
+
+  footer.doc {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<main>
+<header class="doc">
+  <p class="eyebrow">Market research · Almaty, Kazakhstan · August 2026</p>
+  <h1>Premium Farm Dairy for Affluent Almaty: Market, Competitors, Pricing</h1>
+  <p class="subtitle">Concept under review: sell ecologically clean farm products (dairy first, meat later) to wealthy urban women, built on farm-transparency Instagram content — filming the cows, the feed, the milking. All figures sourced; links throughout.</p>
+</header>
+
+<h2><span class="num">§</span>Verdict</h2>
+<div class="verdict">
+  <p><strong>The niche is genuinely open.</strong> No Almaty player today combines (a) a real farm story, (b) a fresh dairy basket, and (c) a strong farm-transparency Instagram. The closest analog — ЭКО ФЕРМА «Славянка» — has the farm and the product line but a lapsed Instagram. The best dairy Instagram in town (~25K followers) belongs to a cheesemaker, not a fresh-milk brand.</p>
+  <p><strong>The premium is already proven in-market.</strong> Славянка sustains ~2× supermarket prices on milk and kefir, +60–90% on butter and eggs. You don't need to invent willingness to pay — you need to capture it with better content and service.</p>
+  <p><strong>One legal landmine:</strong> since December 2024, "эко", "био", "органический" on packaging or even in a trademark are restricted without ST RK 3111 organic certification. Certification is out of budget at this stage — so simply avoid those words. Brand on «фермерский» / «натуральный» / «с нашей фермы» and let the video do the claiming. Costs nothing, removes the risk entirely.</p>
+  <p><strong>Operating model assumed throughout:</strong> zero-production bootstrap. Buy finished products from an existing farmer, package into premium jars/bottles, sell via Instagram with farm-transparency content. No own herd, no processing, no certification.</p>
+</div>
+
+<h2><span class="num">1</span>Market size and tailwinds</h2>
+<div class="stat-row">
+  <div class="stat"><span class="v">617.7 bn ₸</span><span class="l">KZ dairy output value, 2024 (+5.6% YoY)</span></div>
+  <div class="stat"><span class="v">7.5% CAGR</span><span class="l">Milk market forecast: $948M (2024) → $1.46B (2030)</span></div>
+  <div class="stat"><span class="v">173 kg</span><span class="l">Per-capita dairy consumption 2024, vs ~300 kg WHO norm — headroom</span></div>
+  <div class="stat"><span class="v">+11–13%/yr</span><span class="l">Dairy price inflation 2025–26 — shrinks the visible gap to premium</span></div>
+</div>
+<ul>
+  <li>Dairy output value <a href="https://dairynews.today/kz/news/kazakhstan-uvelichil-proizvodstvo-molochnykh-produktov-v-2024-godu-na-5-6-v-stoimostnom-vyrazhenii.html">617.7 bn KZT in 2024, +5.6%</a>; market forecast <a href="https://strategyh.com/report/milk-market-in-kazakhstan/">$948.5M → $1,463.8M by 2030</a>.</li>
+  <li>Supply is structurally weak: raw milk deficit ~1M t/yr, <a href="https://dknews.kz/ru/ekonomika/296325-molochnyy-rynok-kazahstana-perspektivy-i-problemy">~48% of cattle in personal household plots, and over half of commercial raw milk fails EAEU quality regulation</a> — "farm milk" quality in KZ is genuinely uneven, so a verified-quality brand has a defensible claim.</li>
+  <li>Dairy prices have risen <a href="https://www.inastana.kz/news/3892046/102-mesaca-podrad-rastut-ceny-na-molocnye-produkty-v-kazahstane-analitiki">102 consecutive months</a>; milk peaked at <a href="https://dairynews.today/kz/news/moloko-v-kazakhstane-za-god-podorozhalo-na-chetvert.html">+26% YoY</a>. Every year of mainstream inflation makes the farm premium look smaller.</li>
+</ul>
+
+<h2><span class="num">2</span>The trust gap — your actual product</h2>
+<p>The concept ("film the cows, show the feed") lands directly on a documented consumer wound:</p>
+<ul>
+  <li><a href="https://www.inform.kz/ru/14-proizvoditeley-molochnoy-produkcii-v-kazahstane-ulicheny-v-fal-sifikacii_a2915203">14 dairy producers publicly caught falsifying products</a> with vegetable fat (incl. Almaty city/oblast); palm-oil-in-dairy remains a recurring scandal theme.</li>
+  <li>Over <a href="https://rskrf.ru/tips/eksperty-obyasnyayut/kak-vybirat-nastoyashchie-organicheskie-produkty/">50% of consumers distrust "eco/natural" labels</a>. Adjectives are burned. <strong>Proof — video, lab tests, single-herd traceability — is the only differentiator nobody local uses.</strong></li>
+  <li>Willingness-to-pay reality check: a <a href="https://forbes.kz/articles/skolko_gotovyi_platit_kazahstantsyi_za_zdorovoe_pitanie">2019 Almaty/Astana survey</a> found 73% would pay at most +10% for organic. The mass market will not pay. But eco-shops in practice sustain <a href="https://kapital.kz/business/51873/ekoprodukty-spros-bol-shoy-kazakhstanskoy-produktsii-malo.html">+40% to 2–3× pricing</a> with a narrow affluent audience — which is exactly the audience you named. This validates niche targeting and kills any temptation to go broad retail.</li>
+</ul>
+<div class="stat-row">
+  <div class="stat"><span class="v">2.34M</span><span class="l">Almaty population (Nov 2025), KZ's wealth capital</span></div>
+  <div class="stat"><span class="v">539K ₸</span><span class="l">Average Almaty salary 2025, +29% vs national</span></div>
+  <div class="stat"><span class="v">73%</span><span class="l">of mass consumers cap premium at +10% — go niche, not shelf</span></div>
+</div>
+<p>Where the affluent already shop: Esentai Gourmet (the one true premium deli), Galmart, Interfood, Green Bazaar dairy rows, and online — Arbuz.kz (dedicated <a href="https://arbuz.kz/ru/almaty/catalog/cat/74410-fermerskoe_moloko">"фермерское молоко" category</a>) and Airba Fresh. Women outnumber men among KZ active online grocery shoppers (<a href="https://datainsight.ru/DI_ecustomer_kz_2023">Data Insight 2023</a>).</p>
+
+<h2><span class="num">3</span>Competitors — verified accounts only</h2>
+<p>All entries verified live in August 2026 (no invented handles). Follower counts approximate, from indexed snippets.</p>
+<h3>Farm dairy, Almaty</h3>
+<div class="tablewrap">
+<table>
+  <tr><th>Player</th><th>Where</th><th>Sells</th><th>IG strength</th><th>Read</th></tr>
+  <tr><td class="h">ЭКО ФЕРМА «Славянка»<br><span class="muted">Talgar, est. 2016, 12 ha</span></td><td><a href="https://slavyanka.kz">slavyanka.kz</a> · @slavyanka_ferma_kz</td><td>Full dairy line + beef, chicken, eggs, bread. Free delivery from 10,000₸</td><td><span class="tag warn">lapsed</span></td><td>Closest concept match. Farm is real, prices ~2× supermarket — but Instagram appears dead. This is the gap you exploit.</td></tr>
+  <tr><td class="h">Сырный Рай</td><td><a href="https://www.syrr.kz">syrr.kz</a> · @syrnyirai_almaty</td><td>Craft cheeses (burrata, halloumi…), gift sets 13–20K₸</td><td><span class="tag">~25K</span></td><td>Best dairy IG in town, but cheese-led, not a daily fresh basket.</td></tr>
+  <tr><td class="h">Ферма «Хуторок»<br><span class="muted">18 yrs, Almaty obl.</span></td><td>via Arbuz, Esentai Gourmet, Bio Gourmet shelves</td><td>Milk, kefir, ряженка, butter, tvorog + meat</td><td><span class="tag warn">no D2C voice</span></td><td>Already on the exact premium shelves you want — but the brand is mediated by retailers, no own channel.</td></tr>
+  <tr><td class="h">KozaMilk</td><td><a href="https://kozamilk.kz">kozamilk.kz</a></td><td>Goat milk 1,000₸/л, kefir, tvorog</td><td><span class="tag warn">none</span></td><td>Clean allergy-mom niche, zero Instagram.</td></tr>
+  <tr><td class="h">FreshHouse</td><td>@freshhouse_almaty</td><td>Cow + goat milk</td><td><span class="tag">~2.7K</span></td><td>Interesting trust claim (own lab, EAC cert), tiny reach.</td></tr>
+  <tr><td class="h">Meat Master (dairy line)</td><td><a href="https://meat-master.kz/farm">meat-master.kz/farm</a></td><td>Butter ~5,875₸/кг, ghee, tvorog, brynza</td><td><span class="tag warn">side-line</span></td><td>Dairy delivered Tue/Fri only, via Yandex/InDriver — no cold-chain ownership.</td></tr>
+  <tr><td class="h">Лавка Фермера</td><td>@lavka_fermera_almaty_</td><td>Own-farm meat, poultry, eggs, cheese</td><td><span class="tag">TG-active</span></td><td>Genuine single-farm story, Telegram community works; store-first.</td></tr>
+</table>
+</div>
+<h3>Farm/halal meat (your phase 2)</h3>
+<div class="tablewrap">
+<table>
+  <tr><th>Player</th><th>Handle</th><th>Followers</th><th>Read</th></tr>
+  <tr><td class="h">Dam Et</td><td>@dam_et_almaty</td><td>~25K</td><td>Biggest farm-meat IG in Almaty. Shop-led, zero farm content — beatable on story.</td></tr>
+  <tr><td class="h">Alizey Meatshop</td><td>@alizey_meatshop</td><td>~15K</td><td>Halal + freshness, WhatsApp orders.</td></tr>
+  <tr><td class="h">Saumal Deluxe</td><td><a href="https://saumaldeluxe.kz">saumaldeluxe.kz</a></td><td>—</td><td>Mare's milk / kumys as wellness therapy — proof premium-health framing of national products works here (freeze-dried saumal sells at ~1,800₸/20g in pharmacies).</td></tr>
+</table>
+</div>
+<h3>Channel players (list with them, don't fight them)</h3>
+<p>Arbuz.kz (free delivery from 8,000₸), Airba Fresh (merchandises farm dairy + VkusVill goods), Megapit.kz eco-marketplace (carries Славянка), eco-stores where your audience already walks: Amarant (@amarant.gastromarket), Love Eco, Ecococo, HelloEco. Benchmark for content scale: Молочный завод «Садовое» @molokosadovoe, ~78K followers — industrial, not farm-transparent.</p>
+<p class="muted">Cross-check vs the Gemini doc: «Фермерский Дворик» exists (@organicfarm_almaty) but is a small player, not a poultry leader; "Livefood" and "BARON" could not be verified as described — treat that competitor table as unreliable.</p>
+
+<h2><span class="num">4</span>Pricing — what the market already pays</h2>
+<div class="tablewrap">
+<table>
+  <tr><th>Product</th><th>Supermarket</th><th>Farm/premium (actual, Almaty)</th><th>Sustained markup</th></tr>
+  <tr><td class="h">Milk, 1 л</td><td>452–534 ₸</td><td>Славянка 990–1,140 ₸; goat 1,000–1,200 ₸</td><td><strong>~2×</strong></td></tr>
+  <tr><td class="h">Kefir/yogurt, 1 л</td><td>400–500 ₸</td><td>990–1,160 ₸</td><td>~2×</td></tr>
+  <tr><td class="h">Tvorog, kg</td><td>~1,760 ₸</td><td>2,480–2,880 ₸</td><td>+40–65%</td></tr>
+  <tr><td class="h">Butter, kg</td><td>5,300–5,500 ₸</td><td>8,840–10,200 ₸ (Славянка); ghee higher</td><td>+60–90%</td></tr>
+  <tr><td class="h">Eggs, 10</td><td>~689 ₸</td><td>1,140–1,320 ₸</td><td>+65–90%</td></tr>
+  <tr><td class="h">Kurt, kg</td><td>—</td><td>2,300 (plain) → 4,500 ₸ (fatty homemade)</td><td>top vs base +80%</td></tr>
+  <tr><td class="h">Kazy, kg</td><td>konina 2,700–3,500 ₸</td><td>4,600–6,500 ₸; smoked far higher</td><td>+60–100%</td></tr>
+</table>
+</div>
+<p class="src">Sources: <a href="https://dairynews.today/kz/news/tseny-na-molochnye-produkty-v-kazakhstane-vyrosli-do-12-za-god.html">DairyNews</a>, <a href="https://megapit.kz/brand/slavyanka/">Megapit/Славянка</a>, <a href="https://meat-master.kz/farm">Meat Master</a>, <a href="https://inbusiness.kz/index.php/ru/last/689-tenge-za-desyatok-gde-v-kazahstane-samye-dorogie-i-samye-deshevye-yajca">inbusiness (eggs)</a>, <a href="https://kz.kursiv.media/2025-03-30/gde-vygodno-zakazat-koninu-dlya-beshbarmaka-v-almaty/">Kursiv (kazy)</a>.</p>
+<h3>Unit economics skeleton (per liter of milk)</h3>
+<ul>
+  <li>Farm-gate raw milk: <a href="https://eldala.kz/novosti/zhivotnovodstvo/19797-zakupochnye-ceny-na-moloko-upali-s-250-do-200-tenge-za-litr">~200–260 ₸/л (2025–26)</a>, and record output is pressuring it down — good for a buyer.</li>
+  <li>Supermarket pasteurized retail: 450–530 ₸ (≈2× farm-gate). Farm-brand retail: 990–1,140 ₸ (<strong>≈4–5× farm-gate</strong>).</li>
+  <li>A farm-to-door brand captures the whole ~750–900 ₸/л spread, minus bottling, packaging, cold-chain delivery. Glass bottle + label + per-unit delivery realistically eat 400–550 ₸ at small scale — the margin lives in the basket (butter, kaimak, tvorog riding along), not the lone bottle. The Gemini doc's AOV logic (bundle, minimum ~10–15K₸ order, subscription) is right.</li>
+  <li>The Gemini doc's 2,000 ₸/л price is above every observed benchmark (max seen: 1,140 ₸ + delivery). Test 1,100–1,400 ₸/л inside a basket before assuming 2,000 flies.</li>
+</ul>
+
+<h2><span class="num">5</span>Marketing evidence — the "film the farm" playbook works</h2>
+<ul>
+  <li>Study of top-250 farm-influencer posts (LiveDune via <a href="https://www.sostav.ru/publication/tyaga-k-prostomu-kak-fermery-i-dachniki-stanovyatsya-drajverami-inflyuens-marketinga-79058.html">Sostav, Oct 2025</a>): by engagement — humor 41%, daily animal/farm routine 19%, farmer lifestyle 17%. Audience motive: "honest real content", "detox from city life". Don't make it a glossy ad; make it a real farm diary with personality.</li>
+  <li>A 2,200-cow farmer in East Kazakhstan <a href="https://vc.ru/life/2888623-ekonomika-navozha-i-innovatsii-na-molochnoy-ferme-v-kazakhstane">already shoots reels and is popular locally</a> — format proven in KZ.</li>
+  <li>Proven analogues of exactly this model: <strong>Избёнка → ВкусВилл</strong> (dairy-trust brand 2009; loyal dairy buyers themselves demanded meat/veg expansion — your dairy-first sequencing), <strong>Олег Сирота</strong> (farmer-as-blogger cheese empire), <strong>Ballerina Farm</strong> (US; affluent women watch farm life → buy meat boxes; founder 10M followers; note their raw-milk safety scare — never sell raw milk).</li>
+  <li>KZ influencer costs: micro (10–15K) from ~200,000 ₸/placement, some micro stories 5–20K ₸; IG ads test budget 100–300K ₸/mo, optimal 500K–1M (<a href="https://ora.limited/blog/skolko-stoit-reklama-u-blogerov-instagram-kazakhstan">ØRA</a>, <a href="https://metrium.kz/blog/tpost/lnboz51yo1-stoimost-reklami-v-kazahstane-2026-tseni">Metrium</a>). Gemini's gift-seeding plan (send baskets to 10–15 pilates/nutrition/lifestyle micro-influencers, don't ask for review) is cheap and matches how this market actually converts.</li>
+</ul>
+
+<h2><span class="num">6</span>Delivery reality</h2>
+<ul>
+  <li>Yandex Go courier Almaty: min 600 ₸, ~600–1,500 ₸ per cross-city drop (<a href="https://taxi.yandex.kz/ru_kz/almaty/tariff/courier">tariff</a>). Small farm rivals just outsource to Yandex/InDriver with no cold chain — an own courier with a thermal bag is a visible quality edge, not just cost.</li>
+  <li>Aggregators (Glovo/Lavka) erode 30–40% of order value in commissions/fees — direct Instagram/WhatsApp orders + own delivery is the right premium model; use Arbuz/Airba/Esentai Gourmet as brand-building shelf, not core channel.</li>
+  <li><strong>No farm-dairy subscription box exists in KZ.</strong> Славянка and Megapit compete on "free delivery," nobody on subscription. Open white space and the strongest retention mechanic.</li>
+  <li>E-grocery penetration only ~1.5% of food retail (2022) but growing; 16% of users already order weekly.</li>
+</ul>
+
+<h2><span class="num">7</span>Legal: naming and claims</h2>
+<div class="callout">
+  <p><strong>Naming risk.</strong> Rules in force since 12 Dec 2024 under the 2024 organic law (<a href="https://adilet.zan.kz/rus/docs/V2400035431">MinAg order, Adilet</a>): "органический" — and also <strong>"эко", "био", "eco", "bio", even inside a trademark</strong> — may not be used to imply organic status without ST RK 3111 certification. Enforcement is weak today (Славянка still brands "ЭКО ФЕРМА"), but the legal basis to challenge exists. Since certification is not in the starting budget, the free fix is naming: «фермерский»/«натуральный»/«с нашей фермы», and let video do the claiming. Revisit ST RK 3111 later if the brand takes off — no KZ dairy brand holds it yet.</p>
+</div>
+<div class="callout">
+  <p><strong>Repacking trap.</strong> If you pour farm milk into your own jars in a rented kitchen, legally you become a packer/producer — that means a certified food-handling facility, СЭС scrutiny, and liability for every batch. The lean way around it: the farm fills and seals <em>your</em> jars and applies <em>your</em> labels on their premises (they are already a registered production site), you take finished sealed goods. Put this in the supply contract. Same model the Gemini doc called "Scenario A" — it is the only version of "nice jars" that works with no capital.</p>
+</div>
+<p>The rest of the Gemini doc's legal skeleton checks out and is cheap: ИП on упрощёнка (3%), ОКЭД 47291 (+47910 online retail), Kaspi Pay with fiscal receipts, СЭС notification, санкнижки for anyone touching packaging, and the veterinary chain — farm registered with учетный номер, Форма №2 e-certificate per batch via ЕАСУ/e-license, you "гасите" it on receipt. Supplier contract must mandate pasteurization and ТР ТС 033/2013 compliance. Never sell raw milk.</p>
+
+<h2><span class="num">8</span>Recommendations — lean bootstrap version</h2>
+<p>Constraint accepted: no capital for production, facilities, or certification. The whole business at start = farmer's existing products + your jars/labels + your Instagram + a courier. Everything below fits that.</p>
+<ol>
+  <li><strong>Position on proof, not adjectives.</strong> Weekly farm video + one independent lab test (a few thousand tenge per batch at an Almaty lab) + QR on the jar linking to this week's farm footage. Nobody local does it; the distrust data says it's the one message that converts. Filming costs a phone and petrol.</li>
+  <li><strong>Have the farm fill your jars</strong> (see Repacking trap above). Your only physical assets: jars/bottles, labels, thermal bags, ice packs. A few hundred thousand tenge, not millions.</li>
+  <li><strong>Price inside proven bands:</strong> milk 1,100–1,400 ₸/л, butter 9–10K ₸/кг, sold as baskets with a ~10–15K ₸ minimum order. Single-bottle delivery dies on courier cost (600–1,500 ₸/drop); the basket carries it.</li>
+  <li><strong>Launch as a subscription from day one.</strong> First KZ farm-dairy subscription — white space, zero extra cost, fixes unit economics, and locks in the affluent customer who values not thinking about it.</li>
+  <li><strong>Study Славянка hard, then out-execute the channel.</strong> They validated the farm, the assortment, and 2× pricing — and left Instagram unattended. That entire gap is executable with a phone camera.</li>
+  <li><strong>Market with gifted baskets, not ads.</strong> 10–15 beautifully packed baskets to pilates/nutrition/lifestyle micro-bloggers (some post for a 5–20K ₸ story or free product). Skip paid targeting until subscriptions cover it.</li>
+  <li><strong>Resolve the name now</strong> — before printing labels — per the "эко" restriction above. Renaming later costs reprints and lost recognition.</li>
+  <li><strong>Sequence like Избёнка:</strong> dairy trust first; add meat (kazy at 4,600–6,500 ₸/кг is the highest-margin door) once subscribers ask. No inventory risk — take pre-orders, farmer slaughters to order.</li>
+  <li><strong>Do 15–20 real interviews</strong> with Esentai/Galmart shoppers before locking prices: the only WTP survey is 2019, pre-inflation, and it's the weakest data point in this report. Free to do, highest information value per tenge spent.</li>
+</ol>
+
+<h2><span class="num">9</span>Gaps and caveats</h2>
+<ul>
+  <li>No official statistic on premium-dairy share; WTP survey dated 2019.</li>
+  <li>Follower counts are from indexed snippets; arbuz.kz, kaspi.kz, slavyanka.kz, weproject block scraping — spot-check SKU prices manually in the apps.</li>
+  <li>No KZ-specific farm-brand IG engagement benchmarks; closest proxy is the Russian LiveDune study.</li>
+</ul>
+
+<footer class="doc">
+  Compiled from three parallel research passes (market/trends, competitors, pricing/legal), August 2026. All named accounts and URLs verified live at research time; figures carry year and source inline. Cross-checked against the founders' prior Gemini plan — confirmations and corrections noted in place.
+</footer>
+</main>
+</body>
+
+</html>
