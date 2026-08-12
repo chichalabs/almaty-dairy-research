@@ -143,11 +143,24 @@
   .sectionlabel { text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; color: var(--accent); font-weight: 700; margin: 20px 0 8px; }
 
   footer.doc { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 13px; }
+
+  .topnav { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 22px; }
+  .topnav a {
+    font-size: 13px; text-decoration: none; color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+  }
+  .topnav a:hover, .topnav a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+  .topnav a.act { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
 
 <main>
+<nav class="topnav" aria-label="Страницы">
+  <a href="ru.html">Исследование · RU</a>
+  <a href="index.html">Research · EN</a>
+  <a href="finance.html" class="act" aria-current="page">Финмодель · калькулятор</a>
+</nav>
 <header class="doc">
   <p class="eyebrow">Финансовая модель · Алматы · август 2026</p>
   <h1>Экономика предприятия: формулы, сценарии, калькулятор</h1>
