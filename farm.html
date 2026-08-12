@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Поиск фермы-партнёра — чек-лист и требования</title>
+<style>
+  :root {
+    --bg: #FBFAF6;
+    --surface: #F3F1E9;
+    --ink: #22281E;
+    --ink-soft: #5A6152;
+    --line: #DDDACC;
+    --accent: #2F5D3A;
+    --accent-soft: #E7EDE3;
+    --warn-bg: #F6EBDD;
+    --warn-ink: #7A4B12;
+    --link: #2F5D3A;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #191C16;
+      --surface: #22261E;
+      --ink: #E8E6DA;
+      --ink-soft: #A4AB97;
+      --line: #383E31;
+      --accent: #8FBF8F;
+      --accent-soft: #26301F;
+      --warn-bg: #33291A;
+      --warn-ink: #E0B87A;
+      --link: #9FC99A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #191C16;
+    --surface: #22261E;
+    --ink: #E8E6DA;
+    --ink-soft: #A4AB97;
+    --line: #383E31;
+    --accent: #8FBF8F;
+    --accent-soft: #26301F;
+    --warn-bg: #33291A;
+    --warn-ink: #E0B87A;
+    --link: #9FC99A;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  header.doc { padding: 56px 0 32px; border-bottom: 2px solid var(--accent); margin-bottom: 40px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; font-weight: 600; color: var(--accent); margin: 0 0 12px; }
+  h1 { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; font-size: clamp(28px, 5vw, 38px); line-height: 1.15; margin: 0 0 12px; text-wrap: balance; font-weight: 700; }
+  .subtitle { color: var(--ink-soft); font-size: 16px; margin: 0; max-width: 62ch; }
+  h2 { font-family: Georgia, "Iowan Old Style", serif; font-size: 24px; margin: 56px 0 16px; text-wrap: balance; }
+  h2 .num { color: var(--accent); margin-right: 10px; }
+  h3 { font-size: 16px; margin: 26px 0 10px; }
+  p { margin: 0 0 14px; max-width: 72ch; }
+  a { color: var(--link); }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 6px; max-width: 70ch; }
+  strong { font-weight: 650; }
+  .callout { background: var(--warn-bg); color: var(--warn-ink); border-radius: 6px; padding: 14px 18px; margin: 18px 0; }
+  .callout strong { color: inherit; }
+  .muted { color: var(--ink-soft); font-size: 13px; }
+
+  .tablewrap { overflow-x: auto; margin: 16px 0 24px; border: 1px solid var(--line); border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { text-align: left; text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px; color: var(--ink-soft); background: var(--surface); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.h { font-weight: 650; }
+
+  .topnav { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 22px; }
+  .topnav a {
+    font-size: 13px; text-decoration: none; color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+  }
+  .topnav a:hover, .topnav a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+  .topnav a.act { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+  /* interactive farm checklist */
+  .chk-tools {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: end;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; padding: 14px 16px; margin: 18px 0;
+    position: sticky; top: 10px; z-index: 10;
+  }
+  .chk-tools .fld { flex: 1 1 220px; }
+  .chk-tools label { display: block; font-size: 12px; color: var(--ink-soft); margin-bottom: 3px; }
+  .chk-tools input[type="text"] {
+    width: 100%; box-sizing: border-box; background: var(--bg); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; font-size: 14px;
+  }
+  .chk-tools input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chk-tools button {
+    background: none; border: 1px solid var(--line); color: var(--ink-soft);
+    border-radius: 6px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+  }
+  .chk-tools button:hover, .chk-tools button:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+  .pwrap { flex: 2 1 260px; }
+  .pbar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .pfill { height: 100%; width: 0%; background: var(--accent); border-radius: 99px; transition: width 0.2s; }
+  @media (prefers-reduced-motion: reduce) { .pfill { transition: none; } }
+  .pnum { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+  .chk-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 26px 0 10px; }
+  .chk-h h3 { margin: 0; }
+  .chk-h .cnt { font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .chk {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .chk:has(input:checked) { background: var(--accent-soft); border-color: var(--accent); }
+  .chk input[type="checkbox"] {
+    width: 19px; height: 19px; flex: none; margin-top: 2px;
+    accent-color: var(--accent); cursor: pointer;
+  }
+  .chk .body { min-width: 0; }
+  .chk .t { font-weight: 650; font-size: 14.5px; }
+  .chk .e { font-size: 13px; color: var(--ink-soft); margin-top: 3px; line-height: 1.5; }
+  .chk .q { font-size: 13px; color: var(--accent); margin-top: 5px; font-weight: 600; }
+
+  footer.doc { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<main>
+<nav class="topnav" aria-label="Страницы">
+  <a href="index.html">Исследование рынка</a>
+  <a href="finance.html">Финмодель · калькулятор</a>
+  <a href="farm.html" class="act" aria-current="page">Поиск фермы</a>
+</nav>
+<header class="doc">
+  <p class="eyebrow">Поиск фермы-партнёра · Алматинская область</p>
+  <h1>Как найти ферму: где искать, что спрашивать, что проверять</h1>
+  <p class="subtitle">Ферма в нашей модели — это одновременно продукт, производство и съёмочная площадка. Эта страница ведёт весь путь: каналы поиска → отсев по телефону → выезд с чек-листом → сравнение финалистов → договор.</p>
+</header>
+
+<h2><span class="num">1</span>Где искать кандидатов</h2>
+<div class="tablewrap">
+<table>
+  <tr><th>Канал</th><th>Как работать</th><th>Что даёт</th></tr>
+  <tr><td class="h">Районные ветеринарные управления<br><span class="muted">Талгар, Каскелен, Есик</span></td><td>Прийти/позвонить: «Ищем молочное КХ с учётным номером для контракта». Ветврачи знают все легальные хозяйства района лично.</td><td>Сразу отфильтрованный список легальных ферм — самый быстрый путь</td></tr>
+  <tr><td class="h">OLX / Kaspi Объявления</td><td>Запросы: «молоко оптом», «КХ молоко», «домашнее молоко» по Алматинской области. Смотреть продавцов с постоянными объявлениями.</td><td>Хозяйства, уже настроенные продавать; цены видны сразу</td></tr>
+  <tr><td class="h">Молокоприёмные пункты и малые переработчики</td><td>Спросить, кто из сдатчиков возит стабильно чистое молоко (у приёмки есть данные по каждому: жирность, бакобсеменённость).</td><td>Объективная репутация по анализам, не по словам</td></tr>
+  <tr><td class="h">2GIS / Instagram / Google Maps</td><td>«Крестьянское хозяйство», «ферма», «сыроварня» по районам; у живых ферм часто есть страница с фото.</td><td>Сразу видно «камера-тест» ещё до звонка</td></tr>
+  <tr><td class="h">Зелёный базар и районные рынки</td><td>Поговорить с продавцами молочных рядов: чьё молоко возят, откуда. Продавцы знают все хозяйства в радиусе 100 км.</td><td>Сарафан + возможность попробовать продукт анонимно</td></tr>
+  <tr><td class="h">Субботние ярмарки акимата</td><td>Фермеры области привозят продукцию в город регулярно — подходить, пробовать, брать контакты.</td><td>Много кандидатов за одно утро в одном месте</td></tr>
+</table>
+</div>
+<p>Целевые районы: <strong>Талгар, Каскелен, Тургень, направление Есика</strong> — 30–70 км от города, утренняя логистика реальна. Дальше 70 км бензин и холодовая цепь начинают есть маржу (подставьте расстояние в <a href="finance.html">калькулятор</a>).</p>
+
+<h2><span class="num">2</span>Отсев по телефону — 5 вопросов до выезда</h2>
+<p>Каждый выезд — полдня и бензин. Эти пять вопросов отсеивают половину кандидатов за три минуты разговора:</p>
+<ol>
+  <li><strong>«Есть ли у вас учётный номер объекта производства?»</strong> Нет номера или «а что это?» — вычёркиваем, дальше можно не спрашивать.</li>
+  <li><strong>«Пастеризуете ли молоко? На каком оборудовании?»</strong> «Продаём сырое, все так берут» — вычёркиваем.</li>
+  <li><strong>«Сколько литров в день даёте летом и зимой?»</strong> Нужен запас: наш старт ~50–100 л/день с ростом в 2–3 раза. Уверенный ответ цифрами = хозяйство знает своё производство.</li>
+  <li><strong>«Готовы разливать в нашу тару и клеить наши этикетки у себя, за доплату?»</strong> Категоричное «нет, только фляги» — вычёркиваем: без фасовки на ферме вся юридическая модель рушится.</li>
+  <li><strong>«Когда последний раз сдавали молоко на анализы и кровь стада?»</strong> Ответ «недавно, покажем при встрече» — норм. «А зачем?» — вычёркиваем.</li>
+</ol>
+<div class="callout"><strong>Тон разговора:</strong> вы не проверяющий, вы покупатель с деньгами и постоянным объёмом. Формулировка «ищем ферму-партнёра, платим стабильно, берём каждую неделю» открывает двери лучше любого аудита.</div>
+
+<h2><span class="num">3</span>Чек-лист выезда — 25 пунктов</h2>
+<p>Пояснения написаны для человека без опыта в молочном хозяйстве: что это, зачем и как проверить. Галочки сохраняются в браузере отдельно для каждой фермы — введите название и отмечайте с телефона прямо на визите.</p>
+<div class="chk-tools">
+  <div class="fld">
+    <label for="farmname">Название фермы (для отдельного чек-листа)</label>
+    <input type="text" id="farmname" placeholder="напр. КХ Иванов, Талгар">
+  </div>
+  <div class="pwrap">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="pnum" id="pnum">0 из 25</div>
+  </div>
+  <button type="button" id="chkreset">Сбросить галочки</button>
+</div>
+
+<div class="chk-h"><h3>А. Документы и легальность</h3><span class="cnt" data-cnt="a"></span></div>
+<div class="chk"><input type="checkbox" data-k="a1" data-g="a" id="a1"><label class="body" for="a1"><span class="t">Учётный номер объекта производства</span><span class="e">Это номер хозяйства в государственном ветеринарном реестре. Без него ферма для государства «не существует» и легально отгружать продукцию животного происхождения не может в принципе. Это вопрос №1 — если ответа нет, остальной список можно не открывать.</span><span class="q">Спросить: «Какой у вас учётный номер объекта производства?» — номер должны назвать сразу, без поиска по бумажкам.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a2" data-g="a" id="a2"><label class="body" for="a2"><span class="t">Зарегистрированное юрлицо: ИП, ТОО или КХ</span><span class="e">С кем-то надо подписывать договор. КХ — «крестьянское хозяйство», обычная форма для ферм. Попросите БИН/ИИН и пробейте до визита: активна ли регистрация, нет ли налоговых долгов (kgd.gov.kz → «Поиск налогоплательщика», или pk.adata.kz).</span><span class="q">Спросить: «На кого оформлено хозяйство? Продиктуйте БИН/ИИН для договора».</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a3" data-g="a" id="a3"><label class="body" for="a3"><span class="t">Умеют выписывать электронную Форму №2</span><span class="e">Форма №2 — ветеринарная справка на каждую партию (что животные здоровы, продукция безопасна). Сейчас она электронная, выписывается через государственную систему ЕАСУ. Если ферма торгует только «по знакомству», она этого не делала ни разу — а научить её в процессе будет вашей головной болью.</span><span class="q">Спросить: «Покажите последнюю выписанную электронную Форму №2» — на экране телефона/компьютера, с датой.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a4" data-g="a" id="a4"><label class="body" for="a4"><span class="t">Есть закреплённый ветврач</span><span class="e">Справки физически выписывает ветеринарный врач — свой на ферме или закреплённый государственный по району. Вам важно знать, кто этот человек и как быстро он реагирует: справка нужна на каждую отгрузку, т.е. 2 раза в неделю.</span><span class="q">Спросить: «Кто ваш ветврач? Можно с ним познакомиться?» — и взять контакт.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a5" data-g="a" id="a5"><label class="body" for="a5"><span class="t">Свежие анализы крови стада</span><span class="e">Коров планово проверяют на бруцеллёз, туберкулёз и лейкоз — болезни, передающиеся через молоко. Результат — акт с датой. Документ старше 6 месяцев — повод насторожиться: плановые исследования делаются регулярно.</span><span class="q">Спросить: «Когда последний раз брали кровь у стада? Покажите акт» — смотреть на дату, не на слова.</span></label></div>
+
+<div class="chk-h"><h3>Б. Производство и качество</h3><span class="cnt" data-cnt="b"></span></div>
+<div class="chk"><input type="checkbox" data-k="b1" data-g="b" id="b1"><label class="body" for="b1"><span class="t">Пастеризатор на месте — увидеть своими глазами</span><span class="e">Пастеризация — нагрев молока (обычно 72–95°C на десятки секунд), убивающий опасные бактерии. Аппарат выглядит как металлическая ёмкость/установка с нагревом. Сырое (непастеризованное) молоко продавать нельзя — одно отравление клиента закрывает бренд навсегда и это уголовная ответственность.</span><span class="q">Спросить: «Покажите пастеризатор. Какой режим — температура и время?» Уверенный ответ = работают с ним реально.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b2" data-g="b" id="b2"><label class="body" for="b2"><span class="t">Танк-охладитель</span><span class="e">Большая металлическая ёмкость с холодильным агрегатом. Молоко после дойки должно охладиться до +4°C максимум за 2 часа — иначе бактерии размножаются даже в «чистом» молоке. Фляги, стоящие при комнатной температуре, = автоматический отказ.</span><span class="q">Спросить: «Где охлаждаете молоко после дойки и до какой температуры?» — и посмотреть на термометр танка.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b3" data-g="b" id="b3"><label class="body" for="b3"><span class="t">Свежие протоколы испытаний молока</span><span class="e">Лабораторный документ с показателями: антибиотики (должны отсутствовать), соматические клетки (показатель здоровья вымени), бактериальная обсеменённость, жирность. Дата — не старше 1–2 месяцев. Это отдельный документ от анализов крови (пункт А5): там про животных, тут про продукт.</span><span class="q">Спросить: «Покажите последний протокол испытаний молока». Дополнительно: перед договором сдать образцы в независимую лабораторию Алматы самим (~5–15 тыс. ₸).</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b4" data-g="b" id="b4"><label class="body" for="b4"><span class="t">Вода и мойка оборудования</span><span class="e">Молоко впитывает всё, с чем контактирует. Вода из скважины должна иметь свой анализ; оборудование должно мыться спецсредствами, а не «ополаскиваем водичкой». Грязный молокопровод — источник той самой бакобсеменённости.</span><span class="q">Спросить: «Откуда вода, есть ли анализ? Чем моете оборудование после дойки?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b5" data-g="b" id="b5"><label class="body" for="b5"><span class="t">Стабильный объём круглый год — и честный ответ про зиму</span><span class="e">Надои зимой падают на 20–40% — это нормально. Ненормально — закрывать разницу молоком «от соседей»: тогда вы продаёте под своим брендом неизвестно что, и весь смысл прозрачности рушится. Лучше честная сезонная корзина, чем чужое молоко.</span><span class="q">Спросить: «Сколько литров в день летом и зимой? Что делаете, когда молока не хватает?» Ответ «докупаем» = красный флаг.</span></label></div>
+
+<div class="chk-h"><h3>В. Фасовка и логистика</h3><span class="cnt" data-cnt="v"></span></div>
+<div class="chk"><input type="checkbox" data-k="v1" data-g="v" id="v1"><label class="body" for="v1"><span class="t">Согласны фасовать в нашу тару у себя — ключевой пункт модели</span><span class="e">Вся юридическая конструкция держится на том, что разливает и укупоривает зарегистрированный производитель (ферма), а мы — только дистрибьютор. Если фасовать самим — мы становимся производителем со всеми требованиями СЭС к помещению. Ферма может просить доплату за фасовку — это нормально, закладывайте в закупочную цену.</span><span class="q">Спросить: «Разольёте в наши бутылки и банки, наклеите наши этикетки у себя? Сколько это будет стоить за единицу?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v2" data-g="v" id="v2"><label class="body" for="v2"><span class="t">Чистое помещение для фасовки</span><span class="e">Отдельное место с мойкой, а не кухня жилого дома. Именно здесь продукт встречается с вашей тарой — грязная фасовка обнуляет чистое молоко.</span><span class="q">Попросить: «Покажите, где будет происходить розлив». Оценить глазами: поверхности, мухи, посторонние запахи.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v3" data-g="v" id="v3"><label class="body" for="v3"><span class="t">Санитарные книжки у персонала</span><span class="e">У всех, кто касается молока и тары, должна быть личная медицинская книжка с допуском к работе с пищевыми продуктами. Это требование закона и ваш аргумент в любом споре.</span><span class="q">Спросить: «У доярок и того, кто будет фасовать, есть действующие санкнижки?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v4" data-g="v" id="v4"><label class="body" for="v4"><span class="t">Дальность до ~60 км / 1–1,5 часа от Алматы</span><span class="e">Каждый километр — бензин в оба конца в каждый день доставки (подставьте расстояние в калькулятор финмодели — увидите разницу в деньгах). Плюс короткое плечо = короче холодовая цепь и свежее продукт.</span><span class="q">Проверить по карте реальное время в пути утром, не расстояние по прямой.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v5" data-g="v" id="v5"><label class="body" for="v5"><span class="t">Подъезд к ферме в любую погоду</span><span class="e">Грунтовка, которая раскисает после дождя, зимой не чищена — и ваша доставка «каждый вторник и пятницу» сорвана. Надёжность расписания — часть премиального продукта.</span><span class="q">Спросить: «Как с дорогой зимой и после дождей?» — и посмотреть на подъезд самим.</span></label></div>
+
+<div class="chk-h"><h3>Г. Камера-тест и контент</h3><span class="cnt" data-cnt="g"></span></div>
+<div class="chk"><input type="checkbox" data-k="g1" data-g="g" id="g1"><label class="body" for="g1"><span class="t">Выпас и «зелёная картинка»</span><span class="e">Пастбище, трава, в идеале горы на фоне — кадры, которые продают лучше любого текста. Коровы, никогда не выходящие из ангара, дают ту же молочку, но не дают контента, на котором строится вся ваша модель.</span><span class="q">Спросить: «Выходят ли коровы на выпас, куда и в какие месяцы?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g2" data-g="g" id="g2"><label class="body" for="g2"><span class="t">60-секундный тест телефоном</span><span class="e">На визите снять минуту видео без подготовки: коровник, животные, дойка. Вечером пересмотреть и честно ответить: убедит ли это скептичную маму из Есентая? Ферма должна проходить тест без монтажа и фильтров — приукрасить можно один раз, а снимать придётся каждую неделю.</span><span class="q">Сделать прямо на месте — спросить разрешения снимать в первые же минуты визита. Заодно увидите реакцию (пункт Г3).</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g3" data-g="g" id="g3"><label class="body" for="g3"><span class="t">Владелец (или кто-то из команды) готов сниматься</span><span class="e">«Лицо фермера» — самый вовлекающий формат контента в нише. Харизматичный фермер, который сам рассказывает про своих коров, стоит больше, чем скидка 10% к опту. Стеснительный, но согласный — тоже работает: искренность важнее артистизма.</span><span class="q">Спросить: «Будете иногда появляться в наших видео? Расскажете на камеру про хозяйство?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g4" data-g="g" id="g4"><label class="body" for="g4"><span class="t">Корма: знают, показывают, не стыдятся</span><span class="e">«Что ест корова» — буквально главный вопрос вашей аудитории и готовая рубрика контента. Сено, люцерна, комбикорм (какой и чей) — фермер должен отвечать спокойно и показывать кормовой склад. Уход от ответа = либо стыдно, либо сам не знает.</span><span class="q">Спросить: «Чем кормите? Покажете склад кормов?» — и снять это на видео.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g5" data-g="g" id="g5"><label class="body" for="g5"><span class="t">Окрестности без сюрпризов</span><span class="e">Свалка, оживлённая трасса, промзона за забором — попадут и в кадр, и в вопросы клиентов («а чем там дышат ваши коровы?»). Осмотритесь вокруг фермы на 360°, а не только внутри.</span><span class="q">Объехать окрестности на машине 5 минут в каждую сторону.</span></label></div>
+
+<div class="chk-h"><h3>Д. Коммерческие условия (в договор)</h3><span class="cnt" data-cnt="d"></span></div>
+<div class="chk"><input type="checkbox" data-k="d1" data-g="d" id="d1"><label class="body" for="d1"><span class="t">Оптовый прайс на все позиции — письменно</span><span class="e">Устные «договоримся» заканчиваются повышением цены в первый месяц. Прайс со стоимостью фасовки в вашу тару — приложением к договору, фиксация на 6 месяцев, пересмотр объёмов ежемесячно.</span><span class="q">Спросить: «Дадите прайс письменно и зафиксируем на полгода?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d2" data-g="d" id="d2"><label class="body" for="d2"><span class="t">Эксклюзив на брендированные позиции</span><span class="e">Ферма может продолжать продавать своё без бренда кому угодно — но не ваши форматы/рецептуры/тару вашим конкурентам. Иначе вы за свои деньги построите маркетинг чужому товару.</span><span class="q">Обсудить: «Наши SKU — только нам. Своё продавайте как продавали».</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d3" data-g="d" id="d3"><label class="body" for="d3"><span class="t">Ответственность за качество сырья — на производителе</span><span class="e">В договоре: ферма гарантирует пастеризацию и соответствие ТР ТС 033/2013 (техрегламент о безопасности молока), отвечает за качество на момент передачи. Ваша зона — холодовая цепь после приёмки. Это разграничение спасает в случае претензии клиента.</span><span class="q">Пункт для юриста при составлении договора — проговорить с фермером заранее, чтобы не было сюрпризом.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d4" data-g="d" id="d4"><label class="body" for="d4"><span class="t">Запас мощности ×2–3</span><span class="e">Если ферма уже сегодня работает на пределе, ваш рост упрётся в потолок через полгода — или начнётся докуп чужого молока (см. Б5). Спокойный ответ «выйдем на объём за месяц, добавим дойных коров» — то, что нужно.</span><span class="q">Спросить: «Если нам через полгода нужно в 3 раза больше — потянете? За счёт чего?»</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d5" data-g="d" id="d5"><label class="body" for="d5"><span class="t">Резервная ферма на примете</span><span class="e">Пункт не про эту ферму, а про вас: из 3–5 осмотренных хозяйств второе по качеству держите «тёплым» — знакомство, контакты, может быть мелкие разовые закупки. Зависимость от единственного поставщика — главный операционный риск всей модели: болезнь стада или ссора с фермером не должны убивать бизнес.</span><span class="q">Отметить, когда выбран основной партнёр И есть резервный кандидат с контактами.</span></label></div>
+
+<h2><span class="num">4</span>Красные флаги — разворачиваться сразу</h2>
+<ul>
+  <li>Нет учётного номера, «мы так, для своих» — неофициальное хозяйство, легальная отгрузка невозможна.</li>
+  <li>Отказ показывать документы (анализы, протоколы) или «где-то были» — если бумаг нет при вас, их нет вообще.</li>
+  <li>Продают населению сырое непастеризованное молоко как практику — культура безопасности отсутствует.</li>
+  <li>Молоко стоит во флягах при комнатной температуре — нет холодовой цепи с самого начала.</li>
+  <li>Коровник страшный даже при предупреждённом визите — без предупреждения будет только хуже.</li>
+  <li>Уход от ответа про корма и зимние объёмы — с высокой вероятностью докупают чужое.</li>
+</ul>
+
+<h2><span class="num">5</span>Порядок действий</h2>
+<ol>
+  <li><strong>Собрать 8–12 кандидатов</strong> из каналов §1 (ветуправление даст половину списка за один звонок).</li>
+  <li><strong>Отсеять по телефону</strong> пятью вопросами из §2 — останется 4–6.</li>
+  <li><strong>Объехать 3–5 ферм</strong> с чек-листом §3, отдельный лист на каждую (имя фермы вверху). На каждом визите: 60 секунд видео + фото документов.</li>
+  <li><strong>Сравнить финалистов</strong> в первую очередь по блокам А и Б — документы и производство важнее красоты. Камера-тест (Г) — тайбрейкер между технически равными.</li>
+  <li><strong>Свой контрольный анализ</strong> молока финалистов в независимой лаборатории Алматы до подписания (~5–15 тыс. ₸ за ферму).</li>
+  <li><strong>Внезапный второй визит</strong> к лучшему кандидату без предупреждения — ферма в обычный день говорит правду.</li>
+  <li><strong>Договор</strong> с пунктами блока Д + резервная ферма остаётся в тёплом контакте.</li>
+</ol>
+
+<footer class="doc">
+  Страница поиска фермы-партнёра. Часть пакета: <a href="index.html">исследование рынка</a> · <a href="finance.html">финансовая модель</a>. Галочки чек-листа хранятся локально в браузере, отдельный список на каждое название фермы.
+</footer>
+</main>
+<script>
+(function () {
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.chk input[type="checkbox"]'));
+  var nameEl = document.getElementById("farmname");
+  var total = boxes.length;
+  function key() { return "farmchk:" + (nameEl.value.trim().toLowerCase() || "default"); }
+  function load() {
+    var saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key()) || "[]"); } catch (e) {}
+    boxes.forEach(function (b) { b.checked = saved.indexOf(b.getAttribute("data-k")) !== -1; });
+    paint();
+  }
+  function save() {
+    var arr = boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.getAttribute("data-k"); });
+    try { localStorage.setItem(key(), JSON.stringify(arr)); } catch (e) {}
+  }
+  function paint() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById("pfill").style.width = (done / total * 100) + "%";
+    document.getElementById("pnum").textContent = done + " из " + total + (nameEl.value.trim() ? " — " + nameEl.value.trim() : "");
+    ["a", "b", "v", "g", "d"].forEach(function (g) {
+      var gb = boxes.filter(function (b) { return b.getAttribute("data-g") === g; });
+      var gd = gb.filter(function (b) { return b.checked; }).length;
+      var el = document.querySelector('[data-cnt="' + g + '"]');
+      if (el) el.textContent = gd + "/" + gb.length;
+    });
+  }
+  boxes.forEach(function (b) { b.addEventListener("change", function () { save(); paint(); }); });
+  nameEl.addEventListener("input", load);
+  document.getElementById("chkreset").addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    save(); paint();
+  });
+  load();
+})();
+</script>
+
+</body>
+</html>
