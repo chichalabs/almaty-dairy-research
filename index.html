@@ -177,6 +177,49 @@
     color: var(--ink-soft);
     font-size: 13px;
   }
+
+  /* interactive farm checklist */
+  .chk-tools {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: end;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; padding: 14px 16px; margin: 18px 0;
+  }
+  .chk-tools .fld { flex: 1 1 220px; }
+  .chk-tools label { display: block; font-size: 12px; color: var(--ink-soft); margin-bottom: 3px; }
+  .chk-tools input[type="text"] {
+    width: 100%; box-sizing: border-box; background: var(--bg); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; font-size: 14px;
+  }
+  .chk-tools input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chk-tools button {
+    background: none; border: 1px solid var(--line); color: var(--ink-soft);
+    border-radius: 6px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+  }
+  .chk-tools button:hover, .chk-tools button:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+  .pwrap { flex: 2 1 260px; }
+  .pbar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .pfill { height: 100%; width: 0%; background: var(--accent); border-radius: 99px; transition: width 0.2s; }
+  @media (prefers-reduced-motion: reduce) { .pfill { transition: none; } }
+  .pnum { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+  .chk-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 26px 0 10px; }
+  .chk-h h3 { margin: 0; }
+  .chk-h .cnt { font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .chk {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .chk:has(input:checked) { background: var(--accent-soft); border-color: var(--accent); }
+  .chk input[type="checkbox"] {
+    width: 19px; height: 19px; flex: none; margin-top: 2px;
+    accent-color: var(--accent); cursor: pointer;
+  }
+  .chk .body { min-width: 0; }
+  .chk .t { font-weight: 650; font-size: 14.5px; }
+  .chk .e { font-size: 13px; color: var(--ink-soft); margin-top: 3px; line-height: 1.5; }
+  .chk .q { font-size: 13px; color: var(--accent); margin-top: 5px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -299,40 +342,101 @@
 </div>
 <p>The rest of the legal setup is cheap: ИП on упрощёнка (3% of turnover); primary ОКЭД <a href="https://pk.adata.kz/counterparty/oked/47910">47910</a> — retail by internet/mail order (verified: the correct code for a delivery-only business with no storefront — covers Instagram, website, and marketplace sales). <a href="https://basta.kz/oked-47291/">47291</a> ("розничная торговля продуктами питания в специализированных магазинах") applies to physical stores — not needed unless a retail point opens later. Kaspi Pay with fiscal receipts; СЭС notification; санкнижки for anyone touching packaging; and the veterinary chain — farm registered with учетный номер, Форма №2 e-certificate per batch via ЕАСУ/e-license, confirmed ("гасится") on receipt. Supplier contract must mandate pasteurization and ТР ТС 033/2013 compliance. Never sell raw milk.</p>
 
-<h2><span class="num">8</span>Farm partner requirements — the scouting checklist</h2>
-<p>The farm is the product, the factory, and the film set at once. Vet each candidate on four levels; the first level is binary.</p>
-<h3>Hard requirements (no deal without all five)</h3>
-<ol>
-  <li><strong>Legal standing.</strong> Registered entity (ИП/ТОО/КХ) with an учетный номер объекта производства in the veterinary registry. Ask directly: "Есть ли учетный номер?" No number = the farm operates informally and can never ship to you legally.</li>
-  <li><strong>Form №2 capability.</strong> Farm's vet (or district inspector) must be able to issue the electronic Ветеринарная справка/свидетельство Форма №2 through ЕАСУ/e-license on every batch, naming your ИП as receiver. If they only trade "по знакомству" at the bazaar, they've never done this — walk away.</li>
-  <li><strong>Pasteurizer + rapid chilling on site.</strong> Non-negotiable: no raw-milk retail, ever (liability that kills the brand on the first incident). Product must be held at +2…+4°C in a cooling tank until pickup.</li>
-  <li><strong>Fresh lab paperwork.</strong> Regular animal blood testing (brucellosis, TB) and recent protocols on the milk itself — antibiotics, somatic cells, bacterial counts. Ask to see the papers and check the dates, not the words. Then run your own independent test in an Almaty lab before signing.</li>
-  <li><strong>Fills your jars on their premises.</strong> The farm must agree to bottle/seal into your containers and apply your labels on site (they are the registered production facility; you stay a distributor). This clause goes into the supply contract verbatim.</li>
-</ol>
-<h3>Strong preferences</h3>
+<h2><span class="num">8</span>Farm partner requirements — interactive checklist</h2>
+<p>The farm is the product, the factory, and the film set at once. Below are 25 items with plain-language explanations of what each thing is, why it matters, and how to check it — written for a founder new to dairy specifics. Checkmarks persist in the browser separately per farm: enter the farm's name and tick items on your phone during the visit.</p>
+<div class="chk-tools">
+  <div class="fld">
+    <label for="farmname">Farm name (keeps a separate checklist per farm)</label>
+    <input type="text" id="farmname" placeholder="e.g. KH Ivanov, Talgar">
+  </div>
+  <div class="pwrap">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="pnum" id="pnum">0 of 25</div>
+  </div>
+  <button type="button" id="chkreset">Reset checkmarks</button>
+</div>
+
+<div class="chk-h"><h3>A. Documents and legality</h3><span class="cnt" data-cnt="a"></span></div>
+<div class="chk"><input type="checkbox" data-k="a1" data-g="a" id="a1"><label class="body" for="a1"><span class="t">Учётный номер — production site registration number</span><span class="e">The farm's number in the state veterinary registry. Without it the farm officially "doesn't exist" and can never legally ship animal-origin products. Question #1 — if there's no answer, close the list and leave.</span><span class="q">Ask: «Какой у вас учётный номер объекта производства?» — they should recite it instantly, no digging through papers.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a2" data-g="a" id="a2"><label class="body" for="a2"><span class="t">Registered legal entity: ИП, ТОО or КХ</span><span class="e">You need someone to sign a contract with. КХ = peasant farm enterprise, the usual form. Get their БИН/ИИН and check before the visit: registration active, no tax debts (kgd.gov.kz taxpayer search, or pk.adata.kz).</span><span class="q">Ask: "Who is the business registered to? Give me the БИН/ИИН for the contract."</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a3" data-g="a" id="a3"><label class="body" for="a3"><span class="t">Can issue electronic Form №2</span><span class="e">Form №2 is the veterinary certificate per batch (animals healthy, product safe). It's electronic now, issued through the state ЕАСУ system. A farm that only sells "to friends" has never issued one — and teaching them mid-launch becomes your problem.</span><span class="q">Ask: "Show me the last electronic Form №2 you issued" — on a screen, with a date.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a4" data-g="a" id="a4"><label class="body" for="a4"><span class="t">A designated veterinarian</span><span class="e">Certificates are physically issued by a vet — the farm's own or the district state vet. You need to know who this person is and how fast they respond: you'll need a certificate for every shipment, i.e. twice a week.</span><span class="q">Ask: "Who is your vet? Can I meet them?" — and take their contact.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="a5" data-g="a" id="a5"><label class="body" for="a5"><span class="t">Fresh herd blood tests</span><span class="e">Cows are routinely tested for brucellosis, tuberculosis and leukosis — diseases transmissible through milk. The result is a dated certificate. Older than 6 months = suspicious; routine testing happens regularly.</span><span class="q">Ask: "When was the herd last blood-tested? Show me the certificate" — judge the date, not the words.</span></label></div>
+
+<div class="chk-h"><h3>B. Production and quality</h3><span class="cnt" data-cnt="b"></span></div>
+<div class="chk"><input type="checkbox" data-k="b1" data-g="b" id="b1"><label class="body" for="b1"><span class="t">Pasteurizer on site — see it with your own eyes</span><span class="e">Pasteurization heats milk (typically 72–95°C for seconds to minutes), killing dangerous bacteria. The unit looks like a heated steel vessel/installation. Selling raw milk is out of the question — one poisoned customer ends the brand forever, with criminal liability attached.</span><span class="q">Ask: "Show me the pasteurizer. What regime — temperature and time?" A confident answer means they actually use it.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b2" data-g="b" id="b2"><label class="body" for="b2"><span class="t">Cooling tank</span><span class="e">A large steel tank with a refrigeration unit. Milk must reach +4°C within 2 hours of milking — otherwise bacteria multiply even in "clean" milk. Flasks standing at room temperature = automatic rejection.</span><span class="q">Ask: "Where does milk get chilled after milking, and to what temperature?" — then look at the tank's thermometer.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b3" data-g="b" id="b3"><label class="body" for="b3"><span class="t">Fresh milk test protocols</span><span class="e">A lab document with the numbers: antibiotics (must be absent), somatic cells (udder health), bacterial counts, fat content. Dated within the last 1–2 months. This is separate from herd blood tests (A5): that one covers animals, this one covers the product.</span><span class="q">Ask: "Show me the latest milk test protocol." Also: before signing, submit your own samples to an independent Almaty lab (~5–15K ₸).</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b4" data-g="b" id="b4"><label class="body" for="b4"><span class="t">Water and equipment washing</span><span class="e">Milk absorbs everything it touches. Well water must have its own test certificate; equipment must be washed with proper detergents, not "rinsed with water." A dirty milk line is where bacterial contamination comes from.</span><span class="q">Ask: "Where's the water from, is it tested? What do you wash equipment with after milking?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="b5" data-g="b" id="b5"><label class="body" for="b5"><span class="t">Stable year-round volume — and an honest answer about winter</span><span class="e">Winter yields drop 20–40% — that's normal. What's not normal is covering the gap with neighbors' milk: then your brand sells unknown product and the entire transparency premise collapses. An honest seasonal basket beats someone else's milk.</span><span class="q">Ask: "How many liters per day in summer vs winter? What do you do when milk runs short?" The answer "we buy extra" = red flag.</span></label></div>
+
+<div class="chk-h"><h3>C. Packaging and logistics</h3><span class="cnt" data-cnt="v"></span></div>
+<div class="chk"><input type="checkbox" data-k="v1" data-g="v" id="v1"><label class="body" for="v1"><span class="t">Agrees to fill your jars on their premises — the model's keystone</span><span class="e">The whole legal construction rests on the registered producer (the farm) doing the filling and sealing, while you remain a distributor. If you repackage yourself, you become a producer with full СЭС facility requirements. The farm may charge extra per unit for filling — that's normal, budget it into the purchase price.</span><span class="q">Ask: "Will you fill our bottles and jars and apply our labels on site? What's the per-unit charge?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v2" data-g="v" id="v2"><label class="body" for="v2"><span class="t">Clean filling area</span><span class="e">A separate space with washing facilities — not the kitchen of a residential house. This is where the product meets your packaging; a dirty filling spot cancels out clean milk.</span><span class="q">Ask: "Show me where the filling will happen." Judge with your eyes: surfaces, flies, odors.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v3" data-g="v" id="v3"><label class="body" for="v3"><span class="t">Health certificates (санкнижки) for staff</span><span class="e">Everyone touching milk or containers must hold a personal medical book with food-handling clearance. It's a legal requirement and your argument in any dispute.</span><span class="q">Ask: "Do the milkers and whoever fills the jars have valid санкнижки?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v4" data-g="v" id="v4"><label class="body" for="v4"><span class="t">Within ~60 km / 1–1.5 h of Almaty</span><span class="e">Every kilometer is fuel both ways on every delivery day (plug the distance into the financial model's calculator to see it in money). A short leg also means a shorter cold chain and fresher product. Reference areas: Talgar, Kaskelen, Turgen, the Esik direction.</span><span class="q">Check real morning drive time on the map, not straight-line distance.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="v5" data-g="v" id="v5"><label class="body" for="v5"><span class="t">All-weather access road</span><span class="e">A dirt road that turns to mud after rain or goes unplowed in winter kills your "every Tuesday and Friday" schedule. Schedule reliability is part of the premium product.</span><span class="q">Ask: "How's the road in winter and after rain?" — and drive the approach yourself.</span></label></div>
+
+<div class="chk-h"><h3>D. Camera test and content</h3><span class="cnt" data-cnt="g"></span></div>
+<div class="chk"><input type="checkbox" data-k="g1" data-g="g" id="g1"><label class="body" for="g1"><span class="t">Pasture and the "green picture"</span><span class="e">Pasture, grass, ideally mountains in the background — the footage that sells better than any copy. Cows that never leave the barn give the same dairy but none of the content your whole model is built on.</span><span class="q">Ask: "Do the cows go out to pasture — where and in which months?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g2" data-g="g" id="g2"><label class="body" for="g2"><span class="t">The 60-second phone test</span><span class="e">During the visit, film one unprepared minute: barn, animals, milking. Watch it that evening and answer honestly: would this convince a skeptical mother in Esentai? The farm must pass unedited, no filters — you can beautify once, but you'll be filming every week.</span><span class="q">Do it on the spot — ask permission to film in the first minutes. Their reaction doubles as item D3.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g3" data-g="g" id="g3"><label class="body" for="g3"><span class="t">Owner (or someone on the team) willing to be on camera</span><span class="e">Farmer-face content is the highest-engagement format in the niche (data in §5). A charismatic farmer telling the story of his cows is worth more than a 10% wholesale discount. Shy but willing also works: sincerity beats showmanship.</span><span class="q">Ask: "Would you appear in our videos now and then? Tell the farm's story on camera?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g4" data-g="g" id="g4"><label class="body" for="g4"><span class="t">Feed: they know it, show it, aren't ashamed of it</span><span class="e">"What does the cow eat" is literally your audience's #1 question and a ready-made content rubric. Hay, alfalfa, feed concentrate (which and whose) — the farmer should answer calmly and show the feed storage. Dodging the question means either embarrassment or ignorance.</span><span class="q">Ask: "What do you feed them? Show me the feed storage?" — and film it.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="g5" data-g="g" id="g5"><label class="body" for="g5"><span class="t">Surroundings without surprises</span><span class="e">A landfill, busy highway, or industrial zone behind the fence will end up in your frame and in customer questions ("what exactly do your cows breathe?"). Survey 360° around the farm, not just inside it.</span><span class="q">Drive the surroundings for 5 minutes in each direction.</span></label></div>
+
+<div class="chk-h"><h3>E. Commercial terms (into the contract)</h3><span class="cnt" data-cnt="d"></span></div>
+<div class="chk"><input type="checkbox" data-k="d1" data-g="d" id="d1"><label class="body" for="d1"><span class="t">Written wholesale price list for every item</span><span class="e">Verbal "we'll work it out" ends with a price hike in month one. The price list — including the per-unit filling charge — goes as a contract annex, locked for 6 months, volumes reviewed monthly.</span><span class="q">Ask: "Will you give the price list in writing and lock it for six months?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d2" data-g="d" id="d2"><label class="body" for="d2"><span class="t">Exclusivity on branded SKUs</span><span class="e">The farm keeps selling its unbranded product to anyone — but not your formats/recipes/packaging to your competitors. Otherwise you're funding marketing for someone else's goods.</span><span class="q">Discuss: "Our SKUs are ours alone. Keep selling your own as before."</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d3" data-g="d" id="d3"><label class="body" for="d3"><span class="t">Raw-product liability sits with the producer</span><span class="e">In the contract: the farm guarantees pasteurization and ТР ТС 033/2013 compliance (the milk safety technical regulation) and answers for quality at handover. Your zone is the cold chain after pickup. This division is what protects you when a customer complains.</span><span class="q">A clause for the lawyer drafting the contract — raise it with the farmer beforehand so it's no surprise.</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d4" data-g="d" id="d4"><label class="body" for="d4"><span class="t">2–3× capacity headroom</span><span class="e">A farm already at its ceiling caps your growth within six months — or starts buying neighbors' milk (see B5). The answer you want is a calm "we'll scale up within a month, add milking cows."</span><span class="q">Ask: "If we need 3× the volume in six months — can you handle it? How?"</span></label></div>
+<div class="chk"><input type="checkbox" data-k="d5" data-g="d" id="d5"><label class="body" for="d5"><span class="t">Backup farm identified</span><span class="e">This item is about you, not this farm: of the 3–5 farms visited, keep the runner-up warm — relationship, contacts, maybe small occasional purchases. Single-supplier dependency is the model's biggest operational risk: a herd illness or a falling-out must not kill the business.</span><span class="q">Tick when a primary partner is chosen AND a backup candidate with contacts exists.</span></label></div>
+
+<h3>Red flags — turn around immediately</h3>
 <ul>
-  <li><strong>Distance:</strong> within ~1–1.5 h of Almaty (Талгар, Каскелен, Тургень, Есик direction) — keeps the morning cold chain short and makes "filmed yesterday, delivered today" literally true.</li>
-  <li><strong>Range already includes the heroes:</strong> whole milk at natural fat (3.6–4.2%, cream line visible in the bottle), kaimak, tvorog, butter. Pick 3–4 items the farm already makes consistently well — never ask a farm to invent new products for launch.</li>
-  <li><strong>Capacity headroom:</strong> stable daily volume with room to grow 2–3× without quality drift. A farm at its ceiling will quietly start buying neighbors' milk — the exact fraud your brand exists to rule out.</li>
-  <li><strong>The camera test:</strong> pasture access (green grass sells), clean barns, healthy-looking cows, staff in clean clothing. Every scouting visit: film 60 seconds on a phone, watch it that evening — would this footage convince a skeptical mother in Esentai? The farm must pass unedited.</li>
-  <li><strong>An owner willing to be on camera.</strong> Farmer-face content is the strongest-performing format in the niche (see §5); a charismatic farmer is a marketing asset worth ranking above a slightly cheaper wholesale price.</li>
+  <li>No учётный номер, "we just sell to our own people" — informal operation, legal shipping impossible.</li>
+  <li>Refusal to show documents (blood tests, protocols) or "they're somewhere" — if the papers aren't in front of you, they don't exist.</li>
+  <li>Sells raw unpasteurized milk to the public as a practice — no safety culture.</li>
+  <li>Milk standing in flasks at room temperature — no cold chain from the very start.</li>
+  <li>Barn looks bad even on an announced visit — unannounced it only gets worse.</li>
+  <li>Dodges questions about feed and winter volumes — most likely buying someone else's milk.</li>
 </ul>
-<h3>Commercial terms to fix in the contract</h3>
-<ul>
-  <li>Wholesale price locked for 6 months; volumes reviewed monthly.</li>
-  <li>Exclusivity on your branded SKUs (farm may keep selling unbranded, but not your recipes/formats to competitors).</li>
-  <li>Farm guarantees pasteurization and ТР ТС 033/2013 compliance; liability for raw-product quality sits with the producer.</li>
-  <li>Packaging-on-premises clause (see hard requirement 5) with hygiene standards spelled out.</li>
-</ul>
-<h3>Red flags — end the visit early</h3>
-<ul>
-  <li>No учетный номер / "мы так, для своих" — informal operation.</li>
-  <li>Refuses to show lab protocols, or the freshest one is a year old.</li>
-  <li>Sells raw unpasteurized milk to the public as a practice.</li>
-  <li>No cooling tank — milk sits in flasks at ambient temperature.</li>
-  <li>Barn fails the camera test even with warning of your visit — it only looks worse unannounced.</li>
-</ul>
-<p>Scout 3–5 farms before choosing, and keep the runner-up warm as a backup supplier — single-farm dependency is the model's biggest operational risk.</p>
+<p>Procedure: visit 3–5 farms with this checklist (a separate list per farm — enter the name above), compare blocks A and B first, re-verify the finalists with an unannounced second visit.</p>
+<script>
+(function () {
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.chk input[type="checkbox"]'));
+  var nameEl = document.getElementById("farmname");
+  var total = boxes.length;
+  function key() { return "farmchk:" + (nameEl.value.trim().toLowerCase() || "default"); }
+  function load() {
+    var saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key()) || "[]"); } catch (e) {}
+    boxes.forEach(function (b) { b.checked = saved.indexOf(b.getAttribute("data-k")) !== -1; });
+    paint();
+  }
+  function save() {
+    var arr = boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.getAttribute("data-k"); });
+    try { localStorage.setItem(key(), JSON.stringify(arr)); } catch (e) {}
+  }
+  function paint() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById("pfill").style.width = (done / total * 100) + "%";
+    document.getElementById("pnum").textContent = done + " of " + total + (nameEl.value.trim() ? " — " + nameEl.value.trim() : "");
+    ["a", "b", "v", "g", "d"].forEach(function (g) {
+      var gb = boxes.filter(function (b) { return b.getAttribute("data-g") === g; });
+      var gd = gb.filter(function (b) { return b.checked; }).length;
+      var el = document.querySelector('[data-cnt="' + g + '"]');
+      if (el) el.textContent = gd + "/" + gb.length;
+    });
+  }
+  boxes.forEach(function (b) { b.addEventListener("change", function () { save(); paint(); }); });
+  nameEl.addEventListener("input", load);
+  document.getElementById("chkreset").addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    save(); paint();
+  });
+  load();
+})();
+</script>
 
 <h2><span class="num">9</span>Recommendations — lean bootstrap version</h2>
 <p>Constraint accepted: no capital for production, facilities, or certification. The whole business at start = farmer's existing products + your jars/labels + your Instagram + a courier. Everything below fits that.</p>
@@ -360,6 +464,6 @@
   Compiled from three parallel research passes (market/trends, competitors, pricing/legal), August 2026. All named accounts and URLs verified live at research time; figures carry year and source inline.
 </footer>
 </main>
-</body>
 
+</body>
 </html>

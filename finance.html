@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Финансовая модель — фермерская молочка, Алматы</title>
+<style>
+  :root {
+    --bg: #FBFAF6;
+    --surface: #F3F1E9;
+    --ink: #22281E;
+    --ink-soft: #5A6152;
+    --line: #DDDACC;
+    --accent: #2F5D3A;
+    --accent-soft: #E7EDE3;
+    --warn-bg: #F6EBDD;
+    --warn-ink: #7A4B12;
+    --neg: #8C3B2E;
+    --link: #2F5D3A;
+    --input-bg: #FFFFFF;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #191C16;
+      --surface: #22261E;
+      --ink: #E8E6DA;
+      --ink-soft: #A4AB97;
+      --line: #383E31;
+      --accent: #8FBF8F;
+      --accent-soft: #26301F;
+      --warn-bg: #33291A;
+      --warn-ink: #E0B87A;
+      --neg: #D98A78;
+      --link: #9FC99A;
+      --input-bg: #14170F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #191C16;
+    --surface: #22261E;
+    --ink: #E8E6DA;
+    --ink-soft: #A4AB97;
+    --line: #383E31;
+    --accent: #8FBF8F;
+    --accent-soft: #26301F;
+    --warn-bg: #33291A;
+    --warn-ink: #E0B87A;
+    --neg: #D98A78;
+    --link: #9FC99A;
+    --input-bg: #14170F;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  main { max-width: 860px; margin: 0 auto; }
+  header.doc { padding: 56px 0 32px; border-bottom: 2px solid var(--accent); margin-bottom: 40px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; font-weight: 600; color: var(--accent); margin: 0 0 12px; }
+  h1 { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; font-size: clamp(28px, 5vw, 38px); line-height: 1.15; margin: 0 0 12px; text-wrap: balance; font-weight: 700; }
+  .subtitle { color: var(--ink-soft); font-size: 16px; margin: 0; max-width: 62ch; }
+  .subtitle a { color: var(--link); }
+  h2 { font-family: Georgia, "Iowan Old Style", serif; font-size: 24px; margin: 56px 0 16px; text-wrap: balance; }
+  h2 .num { color: var(--accent); margin-right: 10px; }
+  h3 { font-size: 16px; margin: 26px 0 10px; }
+  p { margin: 0 0 14px; max-width: 72ch; }
+  a { color: var(--link); }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 6px; max-width: 70ch; }
+  strong { font-weight: 650; }
+
+  .callout { background: var(--warn-bg); color: var(--warn-ink); border-radius: 6px; padding: 14px 18px; margin: 18px 0; }
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13.5px;
+    overflow-x: auto;
+    margin: 14px 0;
+    white-space: pre;
+    line-height: 1.7;
+  }
+
+  .tablewrap { overflow-x: auto; margin: 16px 0 24px; border: 1px solid var(--line); border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { text-align: left; text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px; color: var(--ink-soft); background: var(--surface); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+  td.h { font-weight: 650; }
+  .muted { color: var(--ink-soft); font-size: 13px; }
+
+  /* calculator */
+  .calc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px;
+    margin: 20px 0 32px;
+  }
+  .calc h3 { margin-top: 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 22px; }
+  label.f { display: block; font-size: 12.5px; color: var(--ink-soft); margin-bottom: 3px; }
+  input[type="number"] {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--input-bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="number"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  select {
+    width: 100%; box-sizing: border-box;
+    background: var(--input-bg); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 7px 10px; font-size: 14px;
+  }
+  select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .prod-table input[type="number"] { width: 90px; }
+  .prod-table td { padding: 6px 8px; }
+
+  .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 18px; }
+  .res {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .res .v { font-size: 21px; font-weight: 700; color: var(--accent); display: block; font-variant-numeric: tabular-nums; }
+  .res .v.bad { color: var(--neg); }
+  .res .l { font-size: 12px; color: var(--ink-soft); display: block; margin-top: 3px; line-height: 1.4; }
+  .pl-line { display: flex; justify-content: space-between; gap: 16px; padding: 5px 0; border-bottom: 1px dashed var(--line); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .pl-line:last-child { border-bottom: none; font-weight: 700; }
+  .pl-line span:last-child { white-space: nowrap; }
+  .sectionlabel { text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; color: var(--accent); font-weight: 700; margin: 20px 0 8px; }
+
+  footer.doc { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<main>
+<header class="doc">
+  <p class="eyebrow">Финансовая модель · Алматы · август 2026</p>
+  <h1>Экономика предприятия: формулы, сценарии, калькулятор</h1>
+  <p class="subtitle">Модель: без производства — закуп готовой продукции у фермы, фасовка на её площадке в нашу тару, продажа корзинами по подписке, доставка своими водителями. Рыночные коридоры цен — из <a href="https://chichalabs.github.io/almaty-dairy-research/ru.html">основного исследования</a>. Все закупочные цены до переговоров с фермами — гипотезы: калькулятор ниже существует ровно для того, чтобы подставлять реальные прайсы.</p>
+</header>
+
+<h2><span class="num">1</span>Как устроена экономика — четыре слоя</h2>
+<ol>
+  <li><strong>Юнит (корзина).</strong> Разница между розничной ценой корзины и суммой закупа + упаковки. Здесь создаётся вся маржа; всё остальное её только тратит.</li>
+  <li><strong>Доставка.</strong> До ~40 подписчиков выгоднее курьер ГПХ с оплатой за адрес; после — свой водитель на окладе, который дешевеет с каждым новым адресом на маршруте (плотность!). Дальность фермы — отдельная строка: бензин на забор товара платится в дни доставки независимо от числа заказов.</li>
+  <li><strong>Постоянные расходы.</strong> Лаборатория, контент, сервисы, бухгалтерия. Маленькие, но при 10 подписчиках именно они делают убыток.</li>
+  <li><strong>Налог.</strong> ИП на упрощёнке — 3% с оборота (не с прибыли!). При марже ~25% это эффективные ~12% с прибыли.</li>
+</ol>
+<div class="callout"><strong>Два продукта — две роли.</strong> Молоко — «якорь»: низкая маржа, но за ним возвращаются дважды в неделю. Каймак и масло — «моторы маржи»: 45–55% даже при дорогом закупе. Корзина обязана содержать и то, и другое — молоко без каймака возит воздух, каймак без молока не создаёт привычку.</div>
+
+<h2><span class="num">2</span>Формулы</h2>
+<div class="formula">Юнит-маржа корзины:
+  M = P − C − U
+  P — цена корзины, C — закуп содержимого, U — упаковка на корзину
+
+Корзин в месяц:
+  B = N × d × 4.33
+  N — подписчики, d — доставок в неделю
+
+Прибыль за месяц:
+  Прибыль = B×M − Доставка(B) − Логистика_фермы − F − t×B×P
+  F — постоянные расходы, t — налог с оборота (0.03)
+
+Доставка(B) = min( B × c_ГПХ ,  ⌈B / cap⌉ × Оклад )
+  c_ГПХ — цена за адрес, cap — адресов на водителя в месяц
+
+Логистика фермы = d × 4.33 × 2×L × (r/100) × p_бенз
+  L — дальность фермы (км), r — расход л/100км, p — цена бензина
+
+Точка безубыточности: наименьшее N, при котором Прибыль(N) ≥ 0
+Окупаемость (мес.) = Стартовый капитал / Прибыль</div>
+<p class="muted">Цена от желаемой маржи (обратная задача): P = (C + U) / (1 − m), где m — целевая валовая маржа. Пример: закуп+упаковка 5,855₸, цель 40% → P = 5,855 / 0.6 ≈ 9,760₸.</p>
+
+<h2><span class="num">3</span>Интерактивный калькулятор</h2>
+<p>Меняйте любые поля — всё пересчитывается сразу. Значения по умолчанию — оценки из исследования.</p>
+
+<div class="calc">
+  <h3>Корзина: состав и цены</h3>
+  <div class="tablewrap prod-table">
+  <table id="prods">
+    <tr><th>Продукт</th><th>Кол-во в корзине</th><th>Ед.</th><th>Закуп ₸/ед.</th><th>Розница ₸/ед.</th><th>Закуп</th><th>Розница</th></tr>
+    <tr data-p><td class="h">Молоко</td><td><input type="number" step="0.5" value="2" data-q></td><td>л</td><td><input type="number" step="10" value="500" data-c></td><td><input type="number" step="10" value="1200" data-r></td><td data-cs></td><td data-rs></td></tr>
+    <tr data-p><td class="h">Каймак</td><td><input type="number" step="0.1" value="0.3" data-q></td><td>кг</td><td><input type="number" step="50" value="2000" data-c></td><td><input type="number" step="50" value="3500" data-r></td><td data-cs></td><td data-rs></td></tr>
+    <tr data-p><td class="h">Творог</td><td><input type="number" step="0.1" value="0.5" data-q></td><td>кг</td><td><input type="number" step="50" value="1600" data-c></td><td><input type="number" step="50" value="2700" data-r></td><td data-cs></td><td data-rs></td></tr>
+    <tr data-p><td class="h">Масло</td><td><input type="number" step="0.05" value="0.25" data-q></td><td>кг</td><td><input type="number" step="100" value="5500" data-c></td><td><input type="number" step="100" value="9500" data-r></td><td data-cs></td><td data-rs></td></tr>
+    <tr data-p><td class="h">Яйца</td><td><input type="number" step="1" value="1" data-q></td><td>дес.</td><td><input type="number" step="10" value="700" data-c></td><td><input type="number" step="10" value="1200" data-r></td><td data-cs></td><td data-rs></td></tr>
+    <tr data-p><td class="h">Кефир</td><td><input type="number" step="0.5" value="1" data-q></td><td>л</td><td><input type="number" step="10" value="600" data-c></td><td><input type="number" step="10" value="1100" data-r></td><td data-cs></td><td data-rs></td></tr>
+  </table>
+  </div>
+
+  <div class="grid2">
+    <div><label class="f">Упаковка на корзину, ₸ (тара, этикетки, амортизация бутылок)</label><input type="number" id="pack" step="10" value="780"></div>
+    <div><label class="f">Наценка/скидка к сумме розницы, % (цена корзины = розница × коэф.)</label><input type="number" id="pricek" step="1" value="0"></div>
+  </div>
+
+  <p class="sectionlabel">Подписка и доставка</p>
+  <div class="grid2">
+    <div><label class="f">Подписчиков</label><input type="number" id="subs" step="5" value="50"></div>
+    <div><label class="f">Доставок в неделю на подписчика</label><input type="number" id="freq" step="1" value="2"></div>
+    <div><label class="f">Модель доставки</label>
+      <select id="dmode">
+        <option value="auto" selected>Авто (дешёвая из двух)</option>
+        <option value="gph">Курьер ГПХ (за адрес)</option>
+        <option value="own">Свои водители (оклад)</option>
+      </select>
+    </div>
+    <div><label class="f">ГПХ: цена за адрес, ₸</label><input type="number" id="cpd" step="50" value="1000"></div>
+    <div><label class="f">Оклад водителя (зп + бензин по городу), ₸/мес</label><input type="number" id="salary" step="10000" value="400000"></div>
+    <div><label class="f">Адресов на водителя в месяц</label><input type="number" id="cap" step="20" value="400"></div>
+  </div>
+
+  <p class="sectionlabel">Ферма</p>
+  <div class="grid2">
+    <div><label class="f">Дальность фермы, км (в одну сторону)</label><input type="number" id="dist" step="5" value="40"></div>
+    <div><label class="f">Расход топлива, л/100км</label><input type="number" id="fuelr" step="1" value="12"></div>
+    <div><label class="f">Цена бензина, ₸/л</label><input type="number" id="fuelp" step="10" value="280"></div>
+  </div>
+
+  <p class="sectionlabel">Постоянные расходы и налог</p>
+  <div class="grid2">
+    <div><label class="f">Постоянные, ₸/мес (лаборатория, контент, сервисы, бухгалтерия)</label><input type="number" id="fixed" step="10000" value="200000"></div>
+    <div><label class="f">Налог с оборота, %</label><input type="number" id="tax" step="0.5" value="3"></div>
+    <div><label class="f">Стартовый капитал, ₸ (для окупаемости)</label><input type="number" id="capex" step="50000" value="760000"></div>
+  </div>
+
+  <div class="results" id="unitres"></div>
+
+  <p class="sectionlabel">P&amp;L за месяц</p>
+  <div id="pl"></div>
+
+  <div class="results" id="mainres"></div>
+</div>
+
+<h2><span class="num">4</span>Что надо знать, глядя на цифры</h2>
+<ul>
+  <li><strong>Точка безубыточности низкая (обычно 12–18 подписчиков)</strong> — потому что стартовых постоянных расходов мало. Это главное преимущество модели без производства: провал стоит дёшево.</li>
+  <li><strong>Налог 3% берётся с оборота.</strong> Продали на 4 млн — отдали 120 тыс. даже при нулевой прибыли. Ещё одна причина не демпинговать.</li>
+  <li><strong>Порог перехода на своих водителей</strong> — когда корзин в месяц становится больше, чем Оклад / Цена_ГПХ (при дефолтах: 400,000/1,000 = 400 корзин ≈ 46 подписчиков). Калькулятор в режиме «Авто» переключает сам.</li>
+  <li><strong>Дальность фермы — тихий убийца.</strong> 40 км → ~50–60 тыс./мес бензина только на забор товара. 120 км → уже ~160 тыс. Ферма в Талгаре (25–30 км) против фермы за Есиком (70+ км) — это разница в целую зарплату курьера.</li>
+  <li><strong>Возврат тары решает.</strong> Бутылка ~300–350₸; при 10 циклах — 35₸ на корзину, при одноразовом использовании — все 700₸ на корзину и минус 7% маржи. Депозит за бутылку в подписке обязателен.</li>
+  <li><strong>Retention важнее привлечения.</strong> При отвале 25%/мес база не растёт уже после ~60 подписчиков при 15 новых в месяц. Каждый процент отвала стоит дороже любой рекламы.</li>
+</ul>
+
+<h2><span class="num">5</span>Стартовый капитал (редактируемая оценка)</h2>
+<div class="tablewrap">
+<table>
+  <tr><th>Статья</th><th>₸</th><th>Комментарий</th></tr>
+  <tr><td class="h">Тара: ~300 бутылок, ~200 банок</td><td>~130,000</td><td>Возвратные бутылки — это актив, не расход</td></tr>
+  <tr><td class="h">Печать этикеток (1,000 шт.)</td><td>~60,000</td><td>Водостойкие, с QR на видео фермы</td></tr>
+  <tr><td class="h">Термосумки ×10 + хладоэлементы</td><td>~80,000</td><td>Держать +2…+4°C летом обязательно</td></tr>
+  <tr><td class="h">Лабораторные анализы (2–3 фермы)</td><td>~30,000</td><td>До подписания договора</td></tr>
+  <tr><td class="h">Стартовая съёмка контента</td><td>~150,000</td><td>2 дня видеографа; дальше — телефон</td></tr>
+  <tr><td class="h">Посев: 15 корзин блогерам</td><td>~90,000</td><td>По себестоимости, без просьбы об отзыве</td></tr>
+  <tr><td class="h">ИП, ЭЦП, мелочи</td><td>~20,000</td><td>Регистрация через Kaspi — быстро</td></tr>
+  <tr><td class="h">Буфер</td><td>~200,000</td><td>Первые закупы, бой тары, непредвиденное</td></tr>
+  <tr><td class="h">Итого</td><td><strong>~760,000</strong></td><td>Поле «стартовый капитал» в калькуляторе</td></tr>
+</table>
+</div>
+
+<h2><span class="num">6</span>Чего в модели нет (честно)</h2>
+<ul>
+  <li><strong>CAC и скорость набора базы.</strong> Модель считает экономику при данном N, но не говорит, как быстро вы до него дойдёте. План: посев → сарафан → таргет после окупаемости посева.</li>
+  <li><strong>Сезонность.</strong> Лето — надои выше и закуп дешевле, но город пустеет (аудитория на дачах/в отпусках). Зима — наоборот. Первые 12 месяцев дадут реальную кривую.</li>
+  <li><strong>Списания.</strong> Свежая молочка живёт 3–5 дней. Подписка почти убирает этот риск (объём известен заранее) — но правило «заказ ферме = подтверждённые корзины + 5–7%» должно соблюдаться железно.</li>
+  <li><strong>Маркетплейсы (Arbuz и др.).</strong> Отдельный канал с комиссией 30–40% — считать отдельно после запуска подписки; в эту модель не включён.</li>
+</ul>
+
+<footer class="doc">
+  Финансовая модель к исследованию рынка фермерской молочки (Алматы, август 2026). Все расчёты — на стороне страницы, данные никуда не отправляются. Закупочные цены по умолчанию — гипотезы до переговоров с фермами.
+</footer>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) {
+    if (!isFinite(n)) return "—";
+    return Math.round(n).toLocaleString("ru-RU") + " ₸";
+  };
+  var pct = function (n) { return isFinite(n) ? (n * 100).toFixed(1).replace(".", ",") + "%" : "—"; };
+
+  function basket() {
+    var rows = document.querySelectorAll("tr[data-p]");
+    var c = 0, r = 0;
+    rows.forEach(function (tr) {
+      var q = parseFloat(tr.querySelector("[data-q]").value) || 0;
+      var cu = parseFloat(tr.querySelector("[data-c]").value) || 0;
+      var ru = parseFloat(tr.querySelector("[data-r]").value) || 0;
+      var cs = q * cu, rs = q * ru;
+      tr.querySelector("[data-cs]").textContent = Math.round(cs).toLocaleString("ru-RU");
+      tr.querySelector("[data-rs]").textContent = Math.round(rs).toLocaleString("ru-RU");
+      c += cs; r += rs;
+    });
+    return { cogs: c, retail: r };
+  }
+
+  function deliveryCost(bm, mode, cpd, salary, cap) {
+    var gph = bm * cpd;
+    var own = Math.ceil(bm / Math.max(cap, 1)) * salary;
+    if (bm === 0) return { cost: 0, label: "—" };
+    if (mode === "gph") return { cost: gph, label: "ГПХ" };
+    if (mode === "own") return { cost: own, label: Math.ceil(bm / cap) + " водит." };
+    return gph <= own ? { cost: gph, label: "авто → ГПХ" } : { cost: own, label: "авто → " + Math.ceil(bm / cap) + " водит." };
+  }
+
+  function computeFor(N, p) {
+    var bm = N * p.freq * 4.33;
+    var revenue = bm * p.price;
+    var cogs = bm * p.bc;
+    var pack = bm * p.pack;
+    var del = deliveryCost(bm, p.dmode, p.cpd, p.salary, p.cap);
+    var farmKm = p.freq * 4.33 * 2 * p.dist;
+    var farm = farmKm * (p.fuelr / 100) * p.fuelp;
+    var tax = revenue * p.tax;
+    var profit = revenue - cogs - pack - del.cost - farm - p.fixed - tax;
+    return { bm: bm, revenue: revenue, cogs: cogs, pack: pack, del: del, farm: farm, tax: tax, profit: profit };
+  }
+
+  function recalc() {
+    var b = basket();
+    var k = 1 + (parseFloat($("pricek").value) || 0) / 100;
+    var p = {
+      bc: b.cogs,
+      price: b.retail * k,
+      pack: parseFloat($("pack").value) || 0,
+      freq: parseFloat($("freq").value) || 0,
+      dmode: $("dmode").value,
+      cpd: parseFloat($("cpd").value) || 0,
+      salary: parseFloat($("salary").value) || 0,
+      cap: parseFloat($("cap").value) || 1,
+      dist: parseFloat($("dist").value) || 0,
+      fuelr: parseFloat($("fuelr").value) || 0,
+      fuelp: parseFloat($("fuelp").value) || 0,
+      fixed: parseFloat($("fixed").value) || 0,
+      tax: (parseFloat($("tax").value) || 0) / 100
+    };
+    var N = parseFloat($("subs").value) || 0;
+    var capex = parseFloat($("capex").value) || 0;
+
+    var unitM = p.price - p.bc - p.pack;
+    var unitPct = p.price > 0 ? unitM / p.price : NaN;
+    $("unitres").innerHTML =
+      '<div class="res"><span class="v">' + fmt(p.price) + '</span><span class="l">Цена корзины (розница' + (k !== 1 ? " × " + k.toFixed(2) : "") + ')</span></div>' +
+      '<div class="res"><span class="v">' + fmt(p.bc) + '</span><span class="l">Закуп содержимого</span></div>' +
+      '<div class="res"><span class="v' + (unitM < 0 ? " bad" : "") + '">' + fmt(unitM) + '</span><span class="l">Юнит-маржа до доставки (' + pct(unitPct) + ')</span></div>';
+
+    var m = computeFor(N, p);
+    var lines = [
+      ["Выручка (" + Math.round(m.bm) + " корзин)", m.revenue],
+      ["Закуп продуктов", -m.cogs],
+      ["Упаковка", -m.pack],
+      ["Доставка клиентам (" + m.del.label + ")", -m.del.cost],
+      ["Логистика фермы (бензин, " + Math.round(p.freq * 4.33 * 2 * p.dist) + " км/мес)", -m.farm],
+      ["Постоянные расходы", -p.fixed],
+      ["Налог " + ($("tax").value || 0) + "% с оборота", -m.tax],
+      ["Прибыль", m.profit]
+    ];
+    $("pl").innerHTML = lines.map(function (l, i) {
+      var v = l[1];
+      var cls = i === lines.length - 1 ? ' style="color:' + (v >= 0 ? "var(--accent)" : "var(--neg)") + '"' : "";
+      return '<div class="pl-line"><span>' + l[0] + "</span><span" + cls + ">" + (v < 0 ? "−" + fmt(-v) : fmt(v)) + "</span></div>";
+    }).join("");
+
+    var be = NaN;
+    for (var n = 1; n <= 1000; n++) {
+      if (computeFor(n, p).profit >= 0) { be = n; break; }
+    }
+    var margin = m.revenue > 0 ? m.profit / m.revenue : NaN;
+    var perSub = N > 0 ? m.profit / N : NaN;
+    var payback = m.profit > 0 ? capex / m.profit : NaN;
+
+    $("mainres").innerHTML =
+      '<div class="res"><span class="v' + (m.profit < 0 ? " bad" : "") + '">' + fmt(m.profit) + '</span><span class="l">Прибыль в месяц при ' + N + ' подписчиках</span></div>' +
+      '<div class="res"><span class="v' + (m.profit < 0 ? " bad" : "") + '">' + pct(margin) + '</span><span class="l">Чистая маржа</span></div>' +
+      '<div class="res"><span class="v">' + (isFinite(be) ? be : "&gt;1000") + '</span><span class="l">Точка безубыточности, подписчиков</span></div>' +
+      '<div class="res"><span class="v">' + (isFinite(perSub) ? fmt(perSub) : "—") + '</span><span class="l">Прибыль на подписчика в месяц</span></div>' +
+      '<div class="res"><span class="v">' + (isFinite(payback) ? payback.toFixed(1).replace(".", ",") + " мес." : "—") + '</span><span class="l">Окупаемость стартового капитала</span></div>';
+  }
+
+  document.querySelectorAll("input, select").forEach(function (el) {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+})();
+</script>
+
+</body>
+</html>
