@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Закуп — стартовый список с ценами и ссылками</title>
+<style>
+  :root {
+    --bg: #FBFAF6;
+    --surface: #F3F1E9;
+    --ink: #22281E;
+    --ink-soft: #5A6152;
+    --line: #DDDACC;
+    --accent: #2F5D3A;
+    --accent-soft: #E7EDE3;
+    --warn-bg: #F6EBDD;
+    --warn-ink: #7A4B12;
+    --link: #2F5D3A;
+    --input-bg: #FFFFFF;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #191C16;
+      --surface: #22261E;
+      --ink: #E8E6DA;
+      --ink-soft: #A4AB97;
+      --line: #383E31;
+      --accent: #8FBF8F;
+      --accent-soft: #26301F;
+      --warn-bg: #33291A;
+      --warn-ink: #E0B87A;
+      --link: #9FC99A;
+      --input-bg: #14170F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #191C16;
+    --surface: #22261E;
+    --ink: #E8E6DA;
+    --ink-soft: #A4AB97;
+    --line: #383E31;
+    --accent: #8FBF8F;
+    --accent-soft: #26301F;
+    --warn-bg: #33291A;
+    --warn-ink: #E0B87A;
+    --link: #9FC99A;
+    --input-bg: #14170F;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  main { max-width: 820px; margin: 0 auto; }
+  header.doc { padding: 56px 0 28px; border-bottom: 2px solid var(--accent); margin-bottom: 28px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; font-weight: 600; color: var(--accent); margin: 0 0 12px; }
+  h1 { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; font-size: clamp(28px, 5vw, 38px); line-height: 1.15; margin: 0 0 12px; text-wrap: balance; font-weight: 700; }
+  .subtitle { color: var(--ink-soft); font-size: 16px; margin: 0; max-width: 62ch; }
+  p { margin: 0 0 14px; max-width: 72ch; }
+  a { color: var(--link); }
+  strong { font-weight: 650; }
+  .callout { background: var(--warn-bg); color: var(--warn-ink); border-radius: 6px; padding: 14px 18px; margin: 18px 0; }
+  .callout strong { color: inherit; }
+
+  .topnav { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 22px; }
+  .topnav a {
+    font-size: 13px; text-decoration: none; color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+  }
+  .topnav a:hover, .topnav a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+  .topnav a.act { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+  /* summary bar */
+  .sumbar {
+    position: sticky; top: 10px; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px 18px; margin: 0 0 22px;
+  }
+  .sumbar .v { font-weight: 800; font-size: 19px; font-variant-numeric: tabular-nums; color: var(--accent); display: block; }
+  .sumbar .l { font-size: 12px; color: var(--ink-soft); }
+  .sumbar .grow { flex: 1; }
+  .sumbar button {
+    background: none; border: 1px solid var(--line); color: var(--ink-soft);
+    border-radius: 6px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+  }
+  .sumbar button:hover, .sumbar button:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+  .sumbar button.add { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+  /* item cards */
+  .item {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 16px 18px; margin-bottom: 12px;
+  }
+  .item.done { background: var(--accent-soft); border-color: var(--accent); }
+  .item-top { display: flex; align-items: center; gap: 12px; }
+  .item-top input[type="checkbox"] {
+    width: 20px; height: 20px; flex: none; accent-color: var(--accent); cursor: pointer;
+  }
+  .item-title {
+    flex: 1; min-width: 0;
+    background: transparent; border: none; color: var(--ink);
+    font-weight: 700; font-size: 16.5px; font-family: inherit;
+    padding: 4px 6px; border-radius: 6px;
+  }
+  .item-title:hover, .item-title:focus { background: var(--input-bg); outline: 1px solid var(--line); }
+  .item.done .item-title { text-decoration: line-through; text-decoration-color: var(--accent); }
+  .del {
+    background: none; border: none; color: var(--ink-soft); cursor: pointer;
+    font-size: 17px; padding: 4px 8px; border-radius: 6px; flex: none;
+  }
+  .del:hover, .del:focus-visible { color: #A0442F; outline: none; }
+
+  .item-fields {
+    display: grid; grid-template-columns: 110px 150px 1fr auto; gap: 10px 14px;
+    margin-top: 12px; align-items: end;
+  }
+  .fld label { display: block; font-size: 11.5px; color: var(--ink-soft); margin-bottom: 3px; }
+  .fld input {
+    width: 100%; box-sizing: border-box;
+    background: var(--input-bg); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 7px 10px; font-size: 14px; font-family: inherit;
+    font-variant-numeric: tabular-nums;
+  }
+  .fld input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .item-sum { font-weight: 800; font-size: 16px; font-variant-numeric: tabular-nums; white-space: nowrap; padding-bottom: 8px; }
+  .item-link { margin-top: 10px; font-size: 13.5px; }
+  .item-link a { font-weight: 600; }
+  .notes {
+    width: 100%; box-sizing: border-box; margin-top: 10px;
+    background: var(--input-bg); color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 9px 11px; font-size: 13.5px; font-family: inherit; line-height: 1.5;
+    resize: vertical; min-height: 54px;
+  }
+  .notes:focus { outline: 2px solid var(--accent); outline-offset: 1px; color: var(--ink); }
+  @media (max-width: 680px) { .item-fields { grid-template-columns: 1fr 1fr; } .item-sum { padding-bottom: 0; } }
+
+  footer.doc { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 13px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<main>
+<nav class="topnav" aria-label="Страницы">
+  <a href="index.html">Главная</a>
+  <a href="finance.html">Финмодель · калькулятор</a>
+  <a href="farm.html">Поиск фермы</a>
+  <a href="zakup.html" class="act" aria-current="page">Закуп</a>
+</nav>
+<header class="doc">
+  <p class="eyebrow">Закуп · стартовый набор</p>
+  <h1>Список закупа: редактируй, отмечай, считает сам</h1>
+  <p class="subtitle">Всё, что нужно купить до запуска. Количество, цены, ссылки и заметки редактируются прямо на странице и сохраняются в браузере. Галочка = куплено. Свои позиции добавляются кнопкой.</p>
+</header>
+
+<div class="callout"><strong>Порядок закупки.</strong> Сначала договор с фермой и её типоразмер горловины под розлив, потом тара, потом этикетки под фактическую тару. До выбора фермы можно брать только универсальное: термобоксы, хладоэлементы, термометры.</div>
+
+<div class="sumbar">
+  <div><span class="v" id="sumTotal"></span><span class="l">весь список</span></div>
+  <div><span class="v" id="sumSpent"></span><span class="l">куплено</span></div>
+  <div><span class="v" id="sumCnt"></span><span class="l">позиций закрыто</span></div>
+  <div class="grow"></div>
+  <button type="button" class="add" id="addBtn">+ Позиция</button>
+  <button type="button" id="resetBtn">Сбросить к исходному</button>
+</div>
+
+<div id="list"></div>
+
+<footer class="doc">
+  Часть пакета: <a href="index.html">главная</a> · <a href="finance.html">финмодель</a> · <a href="farm.html">поиск фермы</a>. Данные хранятся локально в этом браузере (localStorage). Цены по умолчанию — оценки: замените на реальные из счетов поставщиков.
+</footer>
+</main>
+
+<script>
+(function () {
+  var KEY = "zakup:v1";
+  var SEED = [
+    { t: "Бутылка стеклянная 1 л", q: 300, p: 300, u: "шт",
+      l: "https://satu.kz/search?search_term=" + encodeURIComponent("бутылка стеклянная 1 л твист офф"),
+      ln: "Поиск на Satu.kz",
+      n: "Широкое горло (проще мыть на ферме), толстое стекло, металлическая крышка twist-off Ø48-58 мм. Одна форма на всё: этикетки и ящики под один типоразмер. Альтернативы: 2GIS «стеклотара оптом Алматы», OLX (опт); при 1000+ шт дешевле Alibaba/1688, но ждать 30-45 дней. Покупать ТОЛЬКО после выбора фермы: горловина должна совпасть с её розливом." },
+    { t: "Банка 300-350 мл (каймак, сметана)", q: 200, p: 160, u: "шт",
+      l: "https://satu.kz/search?search_term=" + encodeURIComponent("банка стеклянная 350 мл твист офф"),
+      ln: "Поиск на Satu.kz",
+      n: "Twist-off Ø66-82 мм, гладкие стенки под этикетку. Обычные консервные банки подходят идеально. Те же поставщики, что и бутылки — торговаться на общий объём." },
+    { t: "Крышки twist-off (запас)", q: 500, p: 40, u: "шт",
+      l: "https://satu.kz/search?search_term=" + encodeURIComponent("крышка твист офф 82"),
+      ln: "Поиск на Satu.kz",
+      n: "Запас ×2 к числу банок и бутылок: теряются, царапаются, а крышка с царапиной на премиум-банке недопустима. Под оба диаметра (бутылка + банка)." },
+    { t: "Контейнер для творога 500 г", q: 150, p: 150, u: "шт",
+      l: "https://satu.kz/search?search_term=" + encodeURIComponent("контейнер пищевой 500 мл с крышкой"),
+      ln: "Поиск на Satu.kz",
+      n: "Пищевой ПП с плотной крышкой, либо стекло 500 мл (дороже, но держит позиционирование). Смотреть 2GIS «одноразовая посуда опт» — в Алматы дешевле забрать самовывозом." },
+    { t: "Этикетки самоклеящиеся с печатью", q: 1000, p: 60, u: "шт",
+      l: "https://2gis.kz/almaty/search/" + encodeURIComponent("печать этикеток"),
+      ln: "Типографии в 2GIS",
+      n: "Полипропилен, НЕ бумага: держит конденсат и холодильник. Клей морозостойкий. На этикетке: дата розлива, жирность, состав, QR-код на видео фермы. Два размера: бутылка и банка. Макет заказать у дизайнера отдельно (~20-40 тыс. ₸). Печатать ПОСЛЕ покупки тары — размер под фактическую поверхность." },
+    { t: "Крафт/пергамент для масла", q: 500, p: 20, u: "лист",
+      l: "https://satu.kz/search?search_term=" + encodeURIComponent("пергамент пищевой листы"),
+      ln: "Поиск на Satu.kz",
+      n: "Жиронепроницаемый, плотность 40-60 г/м². Листами удобнее рулона: фасовка на ферме быстрее. Брендированный штамп на крафте — дёшево и выглядит дорого." },
+    { t: "Лотки для яиц", q: 300, p: 45, u: "шт",
+      l: "https://satu.kz/search?search_term=" + encodeURIComponent("лоток для яиц картонный 10"),
+      ln: "Поиск на Satu.kz",
+      n: "Картонные на 10 шт, закрытого типа: защищают яйца в общей корзине. Упаковочные оптовики отдают от 100 шт заметно дешевле." },
+    { t: "Термобокс 30-40 л", q: 10, p: 6000, u: "шт",
+      l: "https://kaspi.kz/shop/search/?text=" + encodeURIComponent("термобокс EPP 40"),
+      ln: "Поиск на Kaspi",
+      n: "Жёсткий EPP-бокс держит холод лучше мягкой сумки. Если сумка — только с каркасом и толстой изоляцией. В один бокс входит 3-4 корзины. Проверить перед стартом: стресс-тест 2 часа в машине летом, внутри должно остаться +2…+6°C. Можно покупать до выбора фермы." },
+    { t: "Хладоэлементы гелевые 600-800 г", q: 30, p: 1100, u: "шт",
+      l: "https://kaspi.kz/shop/search/?text=" + encodeURIComponent("хладоэлемент гелевый"),
+      ln: "Поиск на Kaspi",
+      n: "По 2-3 на термобокс + полный второй комплект в морозилке на ротацию (пока один комплект ездит, второй замерзает). Гелевые держат дольше водяных. Можно покупать до выбора фермы." },
+    { t: "Термометр-щуп пищевой", q: 2, p: 3500, u: "шт",
+      l: "https://kaspi.kz/shop/search/?text=" + encodeURIComponent("термометр щуп пищевой цифровой"),
+      ln: "Поиск на Kaspi",
+      n: "Цифровой. Контроль +2…+4°C при приёмке у фермы и на тестах доставки. Второй — запасной: без термометра холодовая цепь превращается в веру. Можно покупать до выбора фермы." },
+    { t: "Ящики для перевозки бутылок", q: 8, p: 3000, u: "шт",
+      l: "https://www.olx.kz/list/q-" + encodeURIComponent("ящик пластиковый для бутылок") + "/",
+      ln: "Поиск на OLX",
+      n: "Под размер бутылки, с ячейками или мягкой прокладкой: бой стекла в машине — минус маржа и осколки в термобоксе. Брать после выбора бутылки (под её габарит)." }
+  ];
+
+  var listEl = document.getElementById("list");
+  var fmt = function (n) { return (Math.round(n) || 0).toLocaleString("ru-RU") + " ₸"; };
+  var items = null;
+
+  function load() {
+    try { items = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { items = null; }
+    if (!Array.isArray(items) || !items.length) {
+      items = SEED.map(function (s, i) {
+        return { id: "s" + i, title: s.t, qty: s.q, price: s.p, unit: s.u, link: s.l, linkName: s.ln, notes: s.n, done: false };
+      });
+    }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) {}
+  }
+
+  function summary() {
+    var total = 0, spent = 0, done = 0;
+    items.forEach(function (it) {
+      var s = (it.qty || 0) * (it.price || 0);
+      total += s;
+      if (it.done) { spent += s; done++; }
+    });
+    document.getElementById("sumTotal").textContent = fmt(total);
+    document.getElementById("sumSpent").textContent = fmt(spent);
+    document.getElementById("sumCnt").textContent = done + " из " + items.length;
+  }
+
+  function bind(card, it) {
+    var chk = card.querySelector('input[type="checkbox"]');
+    chk.checked = !!it.done;
+    chk.addEventListener("change", function () {
+      it.done = chk.checked;
+      card.classList.toggle("done", it.done);
+      save(); summary();
+    });
+    var title = card.querySelector(".item-title");
+    title.value = it.title;
+    title.addEventListener("input", function () { it.title = title.value; save(); });
+    var qty = card.querySelector(".f-qty");
+    qty.value = it.qty;
+    var price = card.querySelector(".f-price");
+    price.value = it.price;
+    var sumEl = card.querySelector(".item-sum");
+    function resum() { sumEl.textContent = fmt((it.qty || 0) * (it.price || 0)); }
+    resum();
+    qty.addEventListener("input", function () { it.qty = parseFloat(qty.value) || 0; resum(); save(); summary(); });
+    price.addEventListener("input", function () { it.price = parseFloat(price.value) || 0; resum(); save(); summary(); });
+    var link = card.querySelector(".f-link");
+    link.value = it.link || "";
+    var a = card.querySelector(".item-link a");
+    function relink() {
+      if (it.link) { a.href = it.link; a.textContent = it.linkName || "Открыть ссылку"; a.style.display = ""; }
+      else { a.style.display = "none"; }
+    }
+    relink();
+    link.addEventListener("input", function () { it.link = link.value.trim(); it.linkName = "Открыть ссылку"; relink(); save(); });
+    var notes = card.querySelector(".notes");
+    notes.value = it.notes || "";
+    notes.addEventListener("input", function () { it.notes = notes.value; save(); });
+    card.querySelector(".del").addEventListener("click", function () {
+      if (!confirm("Удалить позицию «" + (it.title || "без названия") + "»?")) return;
+      items = items.filter(function (x) { return x.id !== it.id; });
+      save(); render();
+    });
+  }
+
+  function render() {
+    listEl.innerHTML = "";
+    items.forEach(function (it) {
+      var card = document.createElement("div");
+      card.className = "item" + (it.done ? " done" : "");
+      card.innerHTML =
+        '<div class="item-top">' +
+          '<input type="checkbox" aria-label="Куплено">' +
+          '<input class="item-title" type="text" aria-label="Название позиции">' +
+          '<button type="button" class="del" aria-label="Удалить позицию">✕</button>' +
+        '</div>' +
+        '<div class="item-fields">' +
+          '<div class="fld"><label>Кол-во' + (it.unit ? ", " + it.unit : "") + '</label><input class="f-qty" type="number" min="0" step="1"></div>' +
+          '<div class="fld"><label>Цена за ед., ₸</label><input class="f-price" type="number" min="0" step="10"></div>' +
+          '<div class="fld"><label>Ссылка (магазин/поиск)</label><input class="f-link" type="url" placeholder="https://…"></div>' +
+          '<div class="item-sum"></div>' +
+        '</div>' +
+        '<div class="item-link"><a target="_blank" rel="noopener"></a></div>' +
+        '<textarea class="notes" rows="3" aria-label="Заметки и советы" placeholder="Заметки: характеристики, поставщик, договорённости…"></textarea>';
+      listEl.appendChild(card);
+      bind(card, it);
+    });
+    summary();
+  }
+
+  document.getElementById("addBtn").addEventListener("click", function () {
+    items.push({ id: "u" + Date.now(), title: "Новая позиция", qty: 1, price: 0, unit: "шт", link: "", linkName: "", notes: "", done: false });
+    save(); render();
+    var last = listEl.lastElementChild;
+    if (last) { last.scrollIntoView({ block: "center" }); last.querySelector(".item-title").focus(); }
+  });
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    if (!confirm("Вернуть исходный список? Ваши правки и добавленные позиции будут удалены.")) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    load(); render();
+  });
+
+  load(); render();
+})();
+</script>
+
+</body>
+</html>
