@@ -105,6 +105,12 @@
   }
   td input:focus { outline: 2px solid var(--accent); outline-offset: -2px; background: var(--bg); }
   td input[type="number"] { text-align: right; }
+  td textarea {
+    width: 100%; box-sizing: border-box; border: none; background: transparent;
+    color: var(--ink); font: inherit; padding: 7px 10px; line-height: 1.45;
+    resize: none; overflow: hidden; display: block; min-height: 34px;
+  }
+  td textarea:focus { outline: 2px solid var(--accent); outline-offset: -2px; background: var(--bg); }
   td.num { text-align: right; padding: 7px 10px; white-space: nowrap; }
   td.center { text-align: center; padding: 4px; }
   td input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; vertical-align: middle; }
@@ -252,7 +258,7 @@
         '<td><input class="c-price" type="number" min="0" step="10" aria-label="Цена"></td>' +
         '<td class="num c-sum"></td>' +
         '<td class="linkcell"><a target="_blank" rel="noopener"></a> <button type="button" class="edit" title="Изменить ссылку">✎</button></td>' +
-        '<td><input class="c-notes" type="text" aria-label="Заметки"></td>' +
+        '<td><textarea class="c-notes" rows="1" aria-label="Заметки"></textarea></td>' +
         '<td class="center"><input class="c-done" type="checkbox" aria-label="Куплено"></td>' +
         '<td class="center"><button type="button" class="rowdel" title="Удалить строку">✕</button></td>';
       tbody.appendChild(tr);
@@ -268,6 +274,7 @@
 
       name.value = it.name; qty.value = it.qty; unit.value = it.unit;
       price.value = it.price; notes.value = it.notes; done.checked = !!it.done;
+      function autosize() { notes.style.height = "auto"; notes.style.height = notes.scrollHeight + "px"; }
       function resum() { sum.textContent = fmt((it.qty || 0) * (it.price || 0)); }
       function relink() {
         if (it.link) { a.href = it.link; a.textContent = host(it.link); a.style.display = ""; }
@@ -277,7 +284,7 @@
 
       name.addEventListener("input", function () { it.name = name.value; save(); });
       unit.addEventListener("input", function () { it.unit = unit.value; save(); });
-      notes.addEventListener("input", function () { it.notes = notes.value; save(); });
+      notes.addEventListener("input", function () { it.notes = notes.value; autosize(); save(); });
       qty.addEventListener("input", function () { it.qty = parseFloat(qty.value) || 0; resum(); save(); totals(); });
       price.addEventListener("input", function () { it.price = parseFloat(price.value) || 0; resum(); save(); totals(); });
       done.addEventListener("change", function () { it.done = done.checked; tr.classList.toggle("done", it.done); save(); totals(); });
@@ -293,6 +300,11 @@
       });
     });
     totals();
+    requestAnimationFrame(function () {
+      tbody.querySelectorAll("textarea").forEach(function (t) {
+        t.style.height = "auto"; t.style.height = t.scrollHeight + "px";
+      });
+    });
   }
 
   document.getElementById("addBtn").addEventListener("click", function () {
